@@ -19,7 +19,7 @@ body {
 
 /* map style */
 .map_window {
-    height: 80vh;
+    height: 78vh;
     display: flex;
     position: relative;
 }

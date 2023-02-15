@@ -87,7 +87,7 @@ app.layout = html.Div([
                                               id='line-chart',
                                               responsive=True,
                                               className='pretty_container',
-                                              style={'height': '50vh'})],
+                                              style={'height': '47vh'})],
                           width=4),
                   dbc.Col(html.Div(
                       [

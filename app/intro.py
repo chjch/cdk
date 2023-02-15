@@ -13,11 +13,7 @@ eleifend quam adipiscing. Id volutpat lacus laoreet non curabitur gravida arcu.
 Morbi non arcu risus quis varius quam. Nec sagittis aliquam malesuada bibendum
 arcu. Euismod nisi porta lorem mollis aliquam ut porttitor leo. Sagittis vitae
 et leo duis ut diam quam nulla. Vitae et leo duis ut diam quam.
-Ut tortor pretium viverra suspendisse potenti nullam ac. Turpis massa sed
-elementum tempus egestas sed sed risus pretium. Ac ut consequat semper viverra
-nam libero justo. Fermentum iaculis eu non diam phasellus vestibulum. At in
-tellus integer feugiat scelerisque varius. Non enim praesent elementum
-facilisis leo vel.
+Ut tortor pretium viverra suspendisse potenti nullam ac.
 """
 
 intro = html.Div(
