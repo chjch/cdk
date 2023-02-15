@@ -1,5 +1,5 @@
-# Resilient Port St. Joe
+# Resilient Cedar Key
 
 This repository hosts the files that create the Dashboard for the Resilient
-Port St. Joe project funded by the Florida Department of Environment
+Cedar Key project funded by the Florida Department of Environment
 Protection.
