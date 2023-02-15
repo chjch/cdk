@@ -10,8 +10,8 @@ MAPBOX_API_KEY = os.getenv("MAPBOX_TOKEN")
 # print(MAPBOX_API_KEY)
 MAPBOX_STYLE = 'mapbox://styles/chjch/ckv84490t0hku14rzd7040xvt'
 
-CDK_LATITUDE = 29.144572
-CDK_LONGITUDE = -83.039874
+CDK_LATITUDE = 29.132572
+CDK_LONGITUDE = -83.043874
 
 pdk.settings.custom_libraries = [
     {
@@ -32,7 +32,7 @@ custom_layer = pdk.Layer(
 
 view_state = pdk.ViewState(
     latitude=CDK_LATITUDE, longitude=CDK_LONGITUDE,
-    bearing=0, pitch=0, zoom=13,
+    bearing=11, pitch=50, zoom=15.3,
     max_zoom=18,
     min_zoom=12,
 )

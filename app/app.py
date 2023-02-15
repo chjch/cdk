@@ -87,7 +87,7 @@ app.layout = html.Div([
                                               id='line-chart',
                                               responsive=True,
                                               className='pretty_container',
-                                              style={'height': '482px'})],
+                                              style={'height': '50vh'})],
                           width=4),
                   dbc.Col(html.Div(
                       [
@@ -171,4 +171,5 @@ def toggle_navbar_collapse(n, is_open):
 
 
 if __name__ == "__main__":
-    app.run_server()
+    app.run_server(debug=False, host="0.0.0.0",
+                   port=int(os.environ.get('PORT', 8080)))
