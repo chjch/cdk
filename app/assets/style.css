@@ -1,0 +1,92 @@
+.pretty_container {
+    border-radius: 5px;
+    /*background-color: #2E3037;*/
+    margin: 10px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 0 0 2px 2px rgba(0,0,0,0.12);
+}
+
+body {
+    /*color: #718BA5;*/
+    /*background-color: #d6e4ea;*/
+    overflow-x: hidden; /* Hide scrollbars */
+}
+
+/*.navbar .navbar-brand{*/
+/*    margin-left:5% !important;*/
+/*}*/
+
+/* map style */
+.map_window {
+    height: 80vh;
+    display: flex;
+    position: relative;
+}
+
+#map-y-slider {
+    height: 80vh !important;
+}
+
+.map_window a.external-link{
+    position: absolute;
+    top: 2em;
+    right: 2em;
+    background-color: #ffa700;
+    border-radius: 1.5em;
+    color: #3d2900;
+    /*text-transform:uppercase;*/
+    text-decoration: none;
+    padding: 1em 1.5em;
+}
+
+a.external-link:hover {
+    background-color: #ffff60;
+    cursor: pointer;
+    color: black;
+}
+
+.dropdown {
+    margin-top: 20px;
+}
+
+.dropdown .Select-control {
+    background-color: rgb(34, 34, 34) !important;
+}
+
+.dropdown .Select-value {
+    border-color: #e3a700 !important;
+}
+
+.dropdown .Select-menu-outer {
+    background-color: rgb(34, 34, 34);
+}
+
+.dropdown .Select-value-label {
+    color: #fff !important;
+}
+
+.dropdown .VirtualizedSelectFocusedOption {
+    background-color: #a5ecd1;
+    color: black;
+}
+
+.dropdown .Select-control, .Select div, .is-open>.Select-control {
+    color: white;
+    border-color: slategray;
+}
+
+.is-focused:not(.is-open) > .Select-control {
+    border-color: slategray;
+}
+
+table, th, td {
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
