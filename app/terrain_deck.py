@@ -21,8 +21,8 @@ pdk.settings.custom_libraries = [
 ]
 
 SURFACE_IMAGE = "https://tiles.arcgis.com/tiles/LBbVDC0hKPAnLRpO/arcgis/" \
-                "rest/services/CK_AE_VE_depth_ft/MapServer/WMTS/tile/" \
-                "1.0.0/CK_AE_VE_depth_ft/default/default028mm/{z}/{y}/{x}.png"
+                "rest/services/CDK_MHHW_2022/MapServer/WMTS/tile/" \
+                "1.0.0/CDK_MHHW_2022/default/default028mm/{z}/{y}/{x}.png"
 
 custom_layer = pdk.Layer(
     "MyTileLayer",

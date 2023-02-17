@@ -32,14 +32,15 @@ def navbar_link(name: str, href: str):
     )
 
 
-overview_link = navbar_link('Overview', 'flood-risk-and-slr')
-housing_link = navbar_link('Housing', 'flood-risk-and-slr')
-transport_link = navbar_link('Transportation', 'flood-risk-and-slr')
+overview_link = navbar_link('Overview', 'overview')
+housing_link = navbar_link('Critical Infrastructure',
+                           'critical-infrastructure')
+transport_link = navbar_link('Transportation', 'transportation')
 community_link = navbar_link('Community and Emergency Facilities',
-                             'flood-risk-and-slr')
+                             'community-emergency-facilities')
 resource_link = navbar_link('Natural Cultural and Historical Resources',
-                            'flood-risk-and-slr')
-tourist_link = navbar_link('Tourism and Economy', 'flood-risk-and-slr')
+                            'natural-cultural-historical')
+tourist_link = navbar_link('Tourism and Economy', 'tourism-economy')
 
 navbar_right = dbc.Row(
     [overview_link, housing_link,

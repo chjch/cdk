@@ -5,7 +5,6 @@ import dash_bootstrap_components as dbc
 from navbar import navbar
 from commuter_deck import commuter_deck
 from commuter_panel import commuter_panel, njob_options
-from building_deck import building_deck
 # from critical_asset_deck import icon_deck
 from terrain_deck import terrain_deck
 from tile3d_deck import tile3d_deck
@@ -77,7 +76,7 @@ map_y_slider = html.Div(
 )
 
 app.layout = html.Div([
-    dcc.Location(id='map-link'),
+    dcc.Location(id='sub-path'),
     dbc.Row(navbar),
     dbc.Row(
         children=[dbc.Col(children=[html.Div(children=intro,
@@ -105,10 +104,6 @@ app.layout = html.Div([
 
 commuter_map = html.Div(children=[],
                         id='commuter-map',
-                        className='map_window')
-
-building_map = html.Div(children=building_deck(),
-                        id='building-map',
                         className='map_window')
 
 terrain_map = html.Div(children=[terrain_deck],
@@ -143,19 +138,40 @@ def update_commuter_deck(selected_njob_option):
 
 @app.callback(
     Output("map-container", "children"),
-    [Input("map-link", "pathname")]
+    [Input("sub-path", "pathname")]
 )
 def update_map(pathname):
     # if pathname == "/3d-built-environment":
     #     return building_map
     if pathname == '/flood-risk-and-slr':
-        return terrain_map
+        return line_chart()
     elif pathname == '/lidar-point-cloud':
         return terrain_map
     # elif pathname == '/critical-assets':
     #     return icon_map
     else:
         return terrain_map
+
+
+@app.callback(
+    Output("line-chart", "figure"),
+    [Input("sub-path", "pathname")]
+)
+def update_line_chart(pathname):
+    if pathname == "/overview":
+        return line_chart('overall')
+    elif pathname == '/critical-infrastructure':
+        return line_chart('infra')
+    elif pathname == '/transportation':
+        return line_chart('trans')
+    elif pathname == '/community-emergency-facilities':
+        return line_chart('comm')
+    elif pathname == '/natural-cultural-historical':
+        return line_chart('resrc')
+    elif pathname == '/tourism-economy':
+        return line_chart('trism')
+    else:
+        return line_chart('overall')
 
 
 # add callback for toggling the collapse on small screens
