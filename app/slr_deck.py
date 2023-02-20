@@ -21,13 +21,14 @@ pdk.settings.custom_libraries = [
 ]
 
 SURFACE_IMAGE = "https://tiles.arcgis.com/tiles/LBbVDC0hKPAnLRpO/arcgis/" \
-                "rest/services/CDK_MHHW_2022/MapServer/WMTS/tile/" \
-                "1.0.0/CDK_MHHW_2022/default/default028mm/{z}/{y}/{x}.png"
+                "rest/services/CDK_MHHW_2070/MapServer/WMTS/tile/" \
+                "1.0.0/CDK_MHHW_2070/default/default028mm/{z}/{y}/{x}.png"
 
 custom_layer = pdk.Layer(
     "MyTileLayer",
     SURFACE_IMAGE,
-    opacity=0.85
+    opacity=0.7,
+    stroked=False
 )
 
 view_state = pdk.ViewState(
