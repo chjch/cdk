@@ -2,6 +2,7 @@ import pydeck as pdk
 import os
 from dotenv import load_dotenv
 import dash_deck
+from utils import scn_tile_url
 
 load_dotenv()
 
@@ -20,30 +21,27 @@ pdk.settings.custom_libraries = [
     }
 ]
 
-SURFACE_IMAGE = "https://tiles.arcgis.com/tiles/LBbVDC0hKPAnLRpO/arcgis/" \
-                "rest/services/CDK_MHHW_2070/MapServer/WMTS/tile/" \
-                "1.0.0/CDK_MHHW_2070/default/default028mm/{z}/{y}/{x}.png"
 
-custom_layer = pdk.Layer(
-    "MyTileLayer",
-    SURFACE_IMAGE,
-    opacity=0.7,
-    stroked=False
-)
+def slr_scenario(scn_code, year):
+    custom_layer = pdk.Layer(
+        "MyTileLayer",
+        scn_tile_url(scn_code, year),
+        opacity=0.8
+    )
 
-view_state = pdk.ViewState(
-    latitude=CDK_LATITUDE, longitude=CDK_LONGITUDE,
-    bearing=11, pitch=50, zoom=15.3,
-    max_zoom=18,
-    min_zoom=12,
-)
+    view_state = pdk.ViewState(
+        latitude=CDK_LATITUDE, longitude=CDK_LONGITUDE,
+        bearing=11, pitch=50, zoom=15.3,
+        max_zoom=18,
+        min_zoom=12,
+    )
 
-r = pdk.Deck(custom_layer,
-             initial_view_state=view_state,
-             map_provider='mapbox',
-             map_style=MAPBOX_STYLE,
-             api_keys={'mapbox': MAPBOX_API_KEY}
-             )
-
-terrain_deck = dash_deck.DeckGL(r.to_json(), id="terrain-deck",
-                                mapboxKey=MAPBOX_API_KEY)
+    r = pdk.Deck(custom_layer,
+                 initial_view_state=view_state,
+                 map_provider='mapbox',
+                 map_style=MAPBOX_STYLE,
+                 api_keys={'mapbox': MAPBOX_API_KEY}
+                 )
+    print(scn_tile_url(scn_code, year))
+    return dash_deck.DeckGL(r.to_json(), id="terrain-deck",
+                            mapboxKey=MAPBOX_API_KEY)

@@ -3,11 +3,7 @@ from dash import Dash, html, dcc, Input, Output, State
 import dash_bootstrap_components as dbc
 
 from navbar import navbar
-from commuter_deck import commuter_deck
-from commuter_panel import commuter_panel, njob_options
-# from critical_asset_deck import icon_deck
-from terrain_deck import terrain_deck
-from tile3d_deck import tile3d_deck
+from slr_deck import slr_scenario
 from intro import intro
 from charts import line_chart
 
@@ -55,6 +51,11 @@ map_x_slider = html.Div(
     className="hstack gap-2"
 )
 
+marks = {1: 'MHHW', 2: 'EWL1R',
+         3: 'EWL2R', 4: 'EWL10R',
+         5: 'NFHL100', 6: 'CAT1',
+         7: 'CAT3', 8: 'CAT5'}
+
 map_y_slider = html.Div(
     [
         html.Div('Scenario',
@@ -65,10 +66,7 @@ map_y_slider = html.Div(
                             step=None,
                             vertical=True,
                             # verticalHeight=800,
-                            marks={1: 'MHHW', 2: 'EWL1R',
-                                   3: 'EWL2R', 4: 'EWL10R',
-                                   5: 'NFHL100', 6: 'CAT1',
-                                   7: 'CAT3', 8: 'CAT5'},
+                            marks=marks,
                             value=1),
                  style={'padding': '0px 0px 0px 0px'})
     ],
@@ -92,7 +90,8 @@ app.layout = html.Div([
                       [
                           html.Div([html.Div(children=[],
                                              id='map-container',
-                                             className='pretty_container'),
+                                             className='pretty_container '
+                                                       'map_window'),
                                     map_x_slider],
                                    style={'width': '95%'}),
                           map_y_slider
@@ -102,55 +101,18 @@ app.layout = html.Div([
         class_name='g-0 px-3')
 ])
 
-commuter_map = html.Div(children=[],
-                        id='commuter-map',
-                        className='map_window')
-
-terrain_map = html.Div(children=[terrain_deck],
-                       id='terrain-map',
-                       className='map_window')
-
-point_cloud_map = html.Div(children=[tile3d_deck],
-                           id='point-cloud-map',
-                           className='map_window')
-
-report_asset = html.A('Report An Asset',
-                      href='https://www.arcgis.com/apps/CrowdsourceReporter/'
-                           'index.html?appid=95373653e2fc4373be0d8b572f20e501',
-                      className='external-link',
-                      target='_blank')
-
-
-@app.callback(
-    Output('commuter-map', 'children'),
-    [Input('njob-picker', 'value')]
-)
-def update_commuter_deck(selected_njob_option):
-    if selected_njob_option:
-        if type(njob_options[selected_njob_option]) is int:
-            selected_njob_option = [njob_options[selected_njob_option]]
-        else:
-            selected_njob_option = list(njob_options[selected_njob_option])
-        return commuter_deck(selected_njob_option)
-    else:
-        return commuter_deck()
-
 
 @app.callback(
     Output("map-container", "children"),
-    [Input("sub-path", "pathname")]
+    [Input("sub-path", "pathname"),
+     Input("map-x-slider", "value"),
+     Input("map-y-slider", "value")]
 )
-def update_map(pathname):
-    # if pathname == "/3d-built-environment":
-    #     return building_map
-    if pathname == '/flood-risk-and-slr':
-        return line_chart()
-    elif pathname == '/lidar-point-cloud':
-        return terrain_map
-    # elif pathname == '/critical-assets':
-    #     return icon_map
+def update_map(pathname, x_value, y_value):
+    if pathname == '/overview':
+        return slr_scenario(marks[y_value], x_value)
     else:
-        return terrain_map
+        return slr_scenario(marks[y_value], x_value)
 
 
 @app.callback(
