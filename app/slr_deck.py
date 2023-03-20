@@ -11,8 +11,8 @@ MAPBOX_API_KEY = os.getenv("MAPBOX_TOKEN")
 # print(MAPBOX_API_KEY)
 MAPBOX_STYLE = 'mapbox://styles/chjch/ckv84490t0hku14rzd7040xvt'
 
-CDK_LATITUDE = 29.132572
-CDK_LONGITUDE = -83.043874
+CDK_LATITUDE = 29.138172
+CDK_LONGITUDE = -83.039874
 
 pdk.settings.custom_libraries = [
     {
