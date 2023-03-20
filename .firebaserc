@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "cedarkey"
+  },
+  "targets": {
+      "cedarkey": {    // firebase project name
+        "hosting": {
+          "cdkdash": [ // cloud run service name
+            "cedarkey" // firebase project name
+          ]
+        }
+      }
+    },
+    "etags": {}
+}

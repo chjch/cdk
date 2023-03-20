@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "site": "resilientcedarkey",
+    "public": "static",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "run": {
+          "serviceId": "cdkdash",
+          "region": "us-central1"
+        }
+      }
+    ]
+  }
+}
