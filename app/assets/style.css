@@ -90,3 +90,14 @@ th, td {
     padding-left: 10px;
     padding-right: 10px;
 }
+
+.popup {
+    display: block;
+    position: absolute;
+    padding: 2px 8px 2px 8px;
+    font-family: Verdana, sans-serif;
+    font-size: 0.9em;
+    background-color: #ffa700;
+    border: 1px solid #ccc;
+    border-radius: 5px
+}
