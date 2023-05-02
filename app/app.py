@@ -12,8 +12,8 @@ BS = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
 external_stylesheets = [
     {'src': 'https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css',
      'rel': 'stylesheet'},
-    dbc.themes.LITERA,
-    BS
+    dbc.themes.MATERIA,
+    # BS
 ]
 
 app = Dash(__name__,
@@ -74,55 +74,93 @@ map_y_slider = html.Div(
     className="vstack gap-2", style={"height": "100%", "position": "relative"}
 )
 
+
 app.layout = html.Div([
     dcc.Location(id='sub-path'),
     dbc.Row(navbar),
     dbc.Row(
-        children=[dbc.Col(children=[html.Div(children=[],
-                                             id='intro-message',
-                                             className='pretty_container',
-                                             style={'height': '20vh',
-                                                    'overflow': 'auto'}),
-                                    dcc.Graph(figure=line_chart(),
-                                              id='line-chart',
-                                              responsive=True,
-                                              hoverData={
-                                                  'points': [{
-                                                      'x': 2022,
-                                                      'customdata': ['MHHW']
-                                                  }]
-                                              },
-                                              className='pretty_container',
-                                              style={'height': '38vh'}),
-                                    dcc.Graph(figure=bar_chart(),
-                                              id='bar-chart',
-                                              responsive=True,
-                                              className='pretty_container',
-                                              style={'height': '27vh'})],
-                          width=4),
-                  dbc.Col(html.Div(
-                      [
-                          html.Div([html.Div([
-                                        html.Div(children=[],
-                                                 id='map-container',
-                                                 className='map_window'),
-                                        html.Img(
-                                            id='map-legend',
-                                            src='assets/image/map-legend.png',
-                                            style={'bottom': '70px',
-                                                   'right': '70px',
-                                                   'width': '10%',
-                                                   'height': 'auto',
-                                                   'position': 'absolute',
-                                                   'z-index': 1}),
-                                    ], className='pretty_container'),
-                                    map_x_slider],
-                                   style={'width': '95%'}),
-                          map_y_slider
-                      ],
-                      className="hstack gap-2"))
-                  ],
-        class_name='g-0 px-3')
+        children=[
+            # chart column
+            dbc.Col(
+                [
+                    html.Div(children=[],
+                             id='intro-message',
+                             className='pretty_container',
+                             style={'height': '25vh',
+                                    'overflow': 'auto'}
+                             ),
+                    dcc.Graph(figure=line_chart(),
+                              id='line-chart',
+                              responsive=True,
+                              hoverData={
+                                  'points': [
+                                      {'x': 2022,
+                                       'customdata': ['MHHW']}
+                                  ]
+                              },
+                              className='pretty_container',
+                              style={'height': '33vh'}
+                              ),
+                    dcc.Graph(figure=bar_chart(),
+                              id='bar-chart',
+                              responsive=True,
+                              className='pretty_container',
+                              style={'height': '27vh'}
+                              )
+                ],
+                width=4
+            ),
+            # map column
+            dbc.Col(
+                [
+                    html.Div(
+                        [
+                            html.Div(
+                                [
+                                    html.Div(
+                                        children=[],
+                                        id='map-container',
+                                        className='map_window'
+                                    ),
+                                    dcc.Dropdown(
+                                        ['Satellite', 'Road map'],
+                                        'Road map',
+                                        id='basemap-dropdown',
+                                        style={
+                                            'top': '25px',
+                                            'left': '25px',
+                                            'width': '40%',
+                                            'height': '30px',
+                                            'position': 'absolute',
+                                            'z-index': 1
+                                        }
+                                    ),
+                                    html.Img(
+                                        id='map-legend',
+                                        src='assets/image/map-legend.png',
+                                        style={
+                                            'bottom': '70px',
+                                            'left': '45px',
+                                            'width': '10%',
+                                            'height': 'auto',
+                                            'position': 'absolute',
+                                            'z-index': 1
+                                        }
+                                    )
+                                ],
+                                className='pretty_container'
+                            ),
+                            map_x_slider
+                        ],
+                        style={'width': '95%'}
+                    ),
+                    map_y_slider
+                ],
+                className="hstack gap-2"
+            )
+        ],
+        class_name='g-0 px-3'
+    )
 ])
 
 
@@ -130,13 +168,14 @@ app.layout = html.Div([
     Output("map-container", "children"),
     [Input("sub-path", "pathname"),
      Input("map-x-slider", "value"),
-     Input("map-y-slider", "value")]
+     Input("map-y-slider", "value"),
+     Input("basemap-dropdown", "value")]
 )
-def update_map(pathname, x_value, y_value):
+def update_map(pathname, x_value, y_value, basemap):
     if pathname == '/overview':
-        return slr_scenario(marks[y_value], x_value)
+        return slr_scenario(pathname, marks[y_value], x_value, basemap)
     else:
-        return slr_scenario(marks[y_value], x_value)
+        return slr_scenario(pathname, marks[y_value], x_value, basemap)
 
 
 @app.callback(
@@ -144,18 +183,18 @@ def update_map(pathname, x_value, y_value):
     [Input("sub-path", "pathname")]
 )
 def update_intro_msg(pathname):
-    if pathname == "/overview":
-        return intro_msg('overall')
+    if pathname == "/housing":
+        return intro_msg('housing')
     elif pathname == '/critical-infrastructure':
         return intro_msg('infra')
     elif pathname == '/transportation':
         return intro_msg('trans')
-    elif pathname == '/community-emergency-facilities':
+    elif pathname == '/community-services':
         return intro_msg('comm')
-    elif pathname == '/natural-cultural-historical':
+    elif pathname == '/natural-cultural-resources':
         return intro_msg('resrc')
-    elif pathname == '/tourism-economy':
-        return intro_msg('trism')
+    elif pathname == '/local-economy':
+        return intro_msg('economy')
     else:
         return intro_msg('overall')
 
@@ -165,7 +204,7 @@ def update_intro_msg(pathname):
     [Input("sub-path", "pathname")]
 )
 def update_line_chart(pathname):
-    if pathname == "/overview":
+    if pathname == "/housing":
         return line_chart('overall')
     elif pathname == '/critical-infrastructure':
         return line_chart('infra')
@@ -173,10 +212,10 @@ def update_line_chart(pathname):
         return line_chart('trans')
     elif pathname == '/community-emergency-facilities':
         return line_chart('comm')
-    elif pathname == '/natural-cultural-historical':
+    elif pathname == '/natural-cultural-resources':
         return line_chart('resrc')
-    elif pathname == '/tourism-economy':
-        return line_chart('trism')
+    elif pathname == '/local-economy':
+        return line_chart('economy')
     else:
         return line_chart('overall')
 
@@ -196,11 +235,11 @@ def update_bar_chart(hoverdata, pathname):
     elif pathname == '/transportation':
         return bar_chart('TRANSPORTATION', scenario, year)
     elif pathname == '/community-emergency-facilities':
-        return bar_chart('COMMUNITY AND EMERGENCY FACILITIES', scenario, year)
-    elif pathname == '/natural-cultural-historical':
-        return bar_chart('NATURAL/CULTURAL/HISTORICAL RESOURCE', scenario, year)
-    elif pathname == '/tourism-economy':
-        return bar_chart('TOURISM/ECONOMY', scenario, year)
+        return bar_chart('COMMUNITY SERVICES', scenario, year)
+    elif pathname == '/natural-cultural-resources':
+        return bar_chart('NATURAL & CULTURAL RESOURCES', scenario, year)
+    elif pathname == '/local-economy':
+        return bar_chart('LOCAL ECONOMY', scenario, year)
     else:
         return bar_chart('overall', scenario, year)
 

@@ -6,18 +6,19 @@ class_df = pd.read_csv(
     "app/data/cdk_critical_assets_flood_depth_classification.csv"
 )
 
-asset_dict = {'comm': "Community and Emergency Facilities",
+asset_dict = {'comm': "Community Services",
               'infra': "Critical Infrastructure",
-              'resrc': "Natural Cultural and Historical Resources",
+              'resrc': "Natural & Cultural Resources",
               'trans': "Transportation",
-              'trism': "Tourism and Economy",
+              'economy': "Local Economy",
               'overall': "All Critical Assets"}
 
 category_orders = {
-    'Asset class': ['TRANSPORTATION', 'CRITICAL INFRASTRUCTURE',
-                    'COMMUNITY AND EMERGENCY FACILITIES',
-                    'NATURAL/CULTURAL/HISTORICAL RESOURCE',
-                    'TOURISM/ECONOMY']
+    'Asset class': ['TRANSPORTATION',
+                    'CRITICAL INFRASTRUCTURE',
+                    'COMMUNITY SERVICES',
+                    'NATURAL & CULTURAL RESOURCES',
+                    'LOCAL ECONOMY']
 }
 
 
@@ -35,16 +36,17 @@ def line_chart(asset: str = 'overall'):
     fig.update_yaxes(range=[-1, 101],
                      title='Assets inundated (%)')
     fig.update_layout(
-        title={'text': asset_dict[asset],
-               'font': {'size': 16},
-               'x': 0.5},
+        # title={'text': asset_dict[asset],
+        #        'font': {'size': 16},
+        #        'x': 0.5},
         legend=dict(
             title=dict(
-                text='Storm scenario<br>',
+                text='scenario',
+                font=dict(size=14)
             ),
-            tracegroupgap=12
+            tracegroupgap=10
         ),
-        margin=dict(l=0, r=0, t=25, b=0)
+        margin=dict(l=0, r=0, t=0, b=0)
     )
     return fig
 

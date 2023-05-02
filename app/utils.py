@@ -7,12 +7,14 @@ load_dotenv()
 # Import Mapbox API Key from environment
 mapbox_api_token = os.getenv("MAPBOX_TOKEN")
 mapbox_style_building = 'mapbox://styles/chjch/cl8d69pxo000m14mqbbttpqfa'
-
+road_json = 'app/data/road_segments.json'
+bfp_json = 'app/data/bfp_props.json'
+asset_points_json = 'app/data/asset_points_color.json'
 cesium_token = os.getenv("CESIUM_TOKEN")
 
 
 def cesium_tile_url(asset_id):
-    return f'https://assets.cesium.com/{asset_id}/tileset.json'
+    return f'https://assets.ion.cesium.com/{asset_id}/tileset.json'
 
 
 def scn_tile_url(scn_code, year):
