@@ -86,6 +86,10 @@ const addListeners = () => {
     }
 };
 
+// const map_view = document.getElementById('view-MapView');
+// const map = map_view.getElementsByClassName('mapboxgl-map');
+
+
 // function addListeners() {
 //     "use strict";
 //

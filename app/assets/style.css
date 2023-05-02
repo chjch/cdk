@@ -28,10 +28,7 @@ body {
     height: 80vh !important;
 }
 
-.map_window a.external-link{
-    position: absolute;
-    top: 2em;
-    right: 2em;
+a.basemap-link {
     background-color: #ffa700;
     border-radius: 1.5em;
     color: #3d2900;
@@ -40,38 +37,55 @@ body {
     padding: 1em 1.5em;
 }
 
-a.external-link:hover {
+a.basemap-link:hover {
     background-color: #ffff60;
     cursor: pointer;
     color: black;
+}
+
+a.basemap-satellite {
+    position: absolute;
+    top: 2em;
+    right: 2em;
+}
+
+a.basemap-roadmap {
+    position: absolute;
+    top: 4em;
+    right: 2em;
 }
 
 .dropdown {
     margin-top: 20px;
 }
 
-.dropdown .Select-control {
-    background-color: rgb(34, 34, 34) !important;
+#basemap-dropdown .Select-control {
+    background-color: rgb(255, 255, 255) !important;
 }
 
-.dropdown .Select-value {
+#basemap-dropdown .Select-value {
     border-color: #e3a700 !important;
 }
 
-.dropdown .Select-menu-outer {
-    background-color: rgb(34, 34, 34);
+#basemap-dropdown .Select-menu-outer {
+    background-color: #0021A5;
+    width: 40%;
+    height: inherit;
+    top: 60px;
+    left: 25px;
 }
 
-.dropdown .Select-value-label {
-    color: #fff !important;
+#basemap-dropdown .Select-value-label {
+    color: #000000 !important;
 }
 
-.dropdown .VirtualizedSelectFocusedOption {
-    background-color: #a5ecd1;
-    color: black;
+#basemap-dropdown .VirtualizedSelectFocusedOption {
+    background-color: #FA4616;
+    color: #ffffff;
+    width: 40%
 }
 
-.dropdown .Select-control, .Select div, .is-open>.Select-control {
+#basemap-dropdown .Select-control, .Select div, .is-open>.Select-control {
     color: white;
     border-color: slategray;
 }
@@ -94,10 +108,23 @@ th, td {
 .popup {
     display: block;
     position: absolute;
-    padding: 2px 8px 2px 8px;
+    padding: 0px 0px 0px 0px;
     font-family: Verdana, sans-serif;
     font-size: 0.9em;
     background-color: #ffa700;
     border: 1px solid #ccc;
     border-radius: 5px
+}
+
+/*.btn {*/
+/*    background-image: linear-gradient(to right, #fbc2eb 0%, #a6c1ee 51%, #fbc2eb 100%);*/
+/*}*/
+
+/*.btn:hover {*/
+/*    background-position: right center; !* change the direction of the change here *!*/
+/*}*/
+
+.btn {
+    padding: 7px 12px;
+    font-size: 14px;
 }
