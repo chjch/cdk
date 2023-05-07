@@ -6,31 +6,31 @@ from utils import asset_points_json
 icon_data = {
     '/transportation': [
         'TRANSPORTATION',
-        {"url": "assets/image/transportation.png",
+        {"url": "/assets/image/transportation.png",
          "width": 100, "height": 87, "anchorY": 96,
          "mask": True}
     ],
     '/critical-infrastructure': [
         'CRITICAL INFRASTRUCTURE',
-        {"url": "assets/image/critical_infrastructure.png",
+        {"url": "/assets/image/critical_infrastructure.png",
          "width": 100, "height": 96, "anchorY": 96,
          "mask": True}
     ],
     '/community-services': [
         'COMMUNITY AND EMERGENCY FACILITIES',
-        {"url": "assets/image/community_service.png",
+        {"url": "/assets/image/community_service.png",
          "width": 96, "height": 96, "anchorY": 96,
          "mask": True}
     ],
     '/natural-cultural-resources': [
         'NATURAL/CULTURAL/HISTORICAL RESOURCE',
-        {"url": "assets/image/natural_cultural.png",
+        {"url": "/assets/image/natural_cultural.png",
          "width": 105, "height": 100, "anchorY": 96,
          "mask": True}
     ],
     '/local-economy': [
         'TOURISM/ECONOMY',
-        {"url": "assets/image/local_economy.png",
+        {"url": "/assets/image/local_economy.png",
          "width": 105, "height": 91, "anchorY": 96,
          "mask": True}
     ]

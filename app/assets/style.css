@@ -116,15 +116,26 @@ th, td {
     border-radius: 5px
 }
 
-/*.btn {*/
-/*    background-image: linear-gradient(to right, #fbc2eb 0%, #a6c1ee 51%, #fbc2eb 100%);*/
-/*}*/
-
-/*.btn:hover {*/
-/*    background-position: right center; !* change the direction of the change here *!*/
-/*}*/
-
 .btn {
     padding: 7px 12px;
     font-size: 14px;
+}
+
+
+.homebtn {
+    padding: 10px 25px;
+    font-size: 14px;
+    background-color: #5FCD94;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #555555;
+}
+
+.homebtn:hover {
+    background-color: #469A6D;
+}
+
+.new-line {
+    display: block;
 }

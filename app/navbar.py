@@ -1,7 +1,7 @@
 from dash import html
 import dash_bootstrap_components as dbc
 
-NAVBAR_LOGO = "assets/image/seagrantuf.png"
+NAVBAR_LOGO = "/assets/image/seagrantuf.png"
 NAVBAR_BRAND_TITLE = "Resilient Cedar Key"
 
 navbar_brand = html.A(
@@ -27,7 +27,7 @@ def navbar_link(name: str, href: str):
         dbc.Button(
             name, color="primary",
             id=f"{name.replace(' ', '').lower()}-button",
-            href=f'/{href}',
+            href=f'/viewer/{href}',
             className="ms-2 rounded-pill btn", n_clicks=0,
         ),
         width="auto",
