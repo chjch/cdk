@@ -1,18 +1,19 @@
 {
   "hosting": {
-    "site": "resilientcedarkey",
-    "public": "static",
+    "site": "resilientcedarkey",  // define the site must be first configured in Firbase Console
+    "public": "static",  // need to remove the index.html in this folder
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
+    // Add the "rewrites" attribute within "hosting"
     "rewrites": [
       {
         "source": "**",
         "run": {
-          "serviceId": "cdkdash",
-          "region": "us-central1"
+          "serviceId": "cdkdash",  // "service name" (from when you deployed the container image)
+          "region": "us-east1"  // optional (if omitted, default is us-central1)
         }
       }
     ]

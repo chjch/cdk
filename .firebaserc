@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "cedarkey"
+    "default": "dcp-fiber"  // cloud run project name
   },
   "targets": {
-      "cedarkey": {    // firebase project name
+      "dcp-fiber": {    // firebase project name
         "hosting": {
           "cdkdash": [ // cloud run service name
-            "cedarkey" // firebase project name
+            "dcp-fiber" // firebase project name
           ]
         }
       }
