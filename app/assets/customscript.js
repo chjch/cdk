@@ -86,38 +86,172 @@ const addListeners = () => {
     }
 };
 
-// const map_view = document.getElementById('view-MapView');
-// const map = map_view.getElementsByClassName('mapboxgl-map');
+function createIntroTour() {
+    const introTour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+            classes: 'shepherd-theme-arrows',
+            cancelIcon: {
+                enabled: true
+            }
+        }
+    });
 
+    introTour.addStep({
+        id: 'step1',
+        title: 'Welcome to the Flood Risk Viewer!',
+        text: 'This tool' +
+            ' allows you to explore the impacts of sea level rise' +
+            ' and storm surge on the City of Cedar Key.' +
+            ' Click "Next" to continue.',
+        buttons: [
+            {
+                text: 'Next',
+                action: introTour.next
+            }
+        ],
+    });
 
-// function addListeners() {
-//     "use strict";
-//
-//     const lineChart = document.getElementById("line-chart");
-//     const legendItems = lineChart.getElementsByClassName("traces");
-//
-//     // const elements = document.getElementsByClassName("groups");
-//
-//     // Loop through the elements and add the event listener
-//     for (let i = 0; i < legendItems.length; i++) {
-//         legendItems[i].addEventListener('mouseover', (event) => {
-//             console.log(legendItems[i])
-//             // Get the element that triggered the event
-//             const hoveredElement = event.target;
-//
-//             // console.log(hoveredElement);
-//
-//             const parentElement = hoveredElement.parentNode;
-//
-//             console.log(parentElement)
-//
-//             // Do something with the hovered element
-//             console.log(legendTips[parentElement.children[0].innerHTML]);
-//         });
-//     }
-// }
+    introTour.addStep({
+        id: 'step2',
+        title: 'Flood Risk by Asset Types',
+        text: 'Click these buttons to view potential flood depths' +
+            ' for a specific asset type.' +
+            ' The "Get Started" button on the welcome page directs' +
+            ' to <strong>HOUSING</strong> by default.',
+        attachTo: {
+            element: '#navbar-links-group',
+            on: 'bottom',
+        },
+        buttons: [
+            {
+                text: 'Next',
+                action: introTour.next
+            }
+        ],
+        floatingUIOptions: {
+            middleware: [window.FloatingUIDOM.offset({mainAxis: 20})]
+        }
+    });
 
-//
-// document.addEventListener("DOMContentLoaded", function() {
-//     setTimeout(function() {addListeners()}, 1000);
-// });
+    introTour.addStep({
+        id: 'step3',
+        title: 'Pick a Scenario',
+        text: 'Choose a specifc scenario by dragging' +
+            ' the slider. <strong>Hover</strong> on an acronym to' +
+            ' see its full name.',
+        attachTo: {
+            element: '#map-y-slider',
+            on: 'left',
+        },
+        buttons: [
+            {
+                text: 'Next',
+                action: introTour.next
+            }
+        ],
+        floatingUIOptions: {
+            middleware: [window.FloatingUIDOM.offset({mainAxis: 20})]
+        }
+    });
+
+    introTour.addStep({
+        id: 'step4',
+        title: 'Pick a Year',
+        text: 'Choose a year to see specific scenario you selected' +
+            ' under that year. The default year is 2040.',
+        attachTo: {
+            element: '#map-x-slider',
+            on: 'top',
+        },
+        buttons: [
+            {
+                text: 'Next',
+                action: introTour.next
+            }
+        ],
+        floatingUIOptions: {
+            middleware: [window.FloatingUIDOM.offset({mainAxis: 20})]
+        }
+    });
+
+    introTour.addStep({
+        id: 'step5',
+        title: 'Overview, Challenges, and Value',
+        text: 'Learn about the types of structures and assets analyzed ' +
+            ' in Cedar Key, and the challenges facing the city.' +
+            ' Also, read about the values that will guide the city’s ' +
+            ' resilience and flood risk reduction strategies.' +
+            ' <strong>Scroll-down</strong> to read more.',
+        attachTo: {
+            element: '#intro-message',
+            on: 'right',
+        },
+        buttons: [
+            {
+                text: 'Next',
+                action: introTour.next
+            }
+        ],
+        floatingUIOptions: {
+            middleware: [window.FloatingUIDOM.offset({mainAxis: 20})]
+        }
+    });
+
+    introTour.addStep({
+        id: 'step6',
+        title: 'Percent of Inundated Assets',
+        text: 'This chart provides an overview of the percentage of' +
+            ' inundated assets with the specific asset type is currently' +
+            ' under selection. Each line represents a specific (storm) scenario,' +
+            ' which follows the same acronyms as the vertical slider before.' +
+            ' <strong>Hover</strong> on a data point (any combination of year and scenario)' +
+            ' to see its value.' +
+            ' <strong>Single-click</strong> on a legend item to hide a scenario.' +
+            ' <strong>Double-click</strong> to show just that scenario.',
+        attachTo: {
+            element: '#line-chart',
+            on: 'right',
+        },
+        buttons: [
+            {
+                text: 'Next',
+                action: introTour.next
+            }
+        ],
+        floatingUIOptions: {
+            middleware: [window.FloatingUIDOM.offset({mainAxis: 20})]
+        }
+    });
+
+    introTour.addStep({
+        id: 'step7',
+        title: 'Flood Depth Classification',
+        text: 'This chart is in sync with the chart above.' +
+            ' When you <strong>Hover</strong> on a particular data point' +
+            ' above, it shows the percent of all the inundated assets' +
+            ' by flood depths divided into 6 classes.',
+        attachTo: {
+            element: '#bar-chart',
+            on: 'right',
+        },
+        buttons: [
+            {
+                text: 'FINISH',
+                action: introTour.next
+            }
+        ],
+        floatingUIOptions: {
+            middleware: [window.FloatingUIDOM.offset({mainAxis: 20})]
+        }
+    });
+
+    if (window.location.href.includes('viewer/housing')) {
+        // Initiate the tour
+        // introTour.start();
+        if(!sessionStorage.getItem('shepherd-tour')) {
+            introTour.start();
+            sessionStorage.setItem('shepherd-tour', 'yes');
+        }
+    }
+}
