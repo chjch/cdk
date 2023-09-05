@@ -398,7 +398,7 @@ def update_line_chart(pathname, y_value):
         return line_chart("infra", y_slider_marks[y_value]["label"])
     elif pathname == "/transportation":
         return line_chart("trans", y_slider_marks[y_value]["label"])
-    elif pathname == "/community-emergency-facilities":
+    elif pathname == "/community-services":
         return line_chart("comm", y_slider_marks[y_value]["label"])
     elif pathname == "/natural-cultural-resources":
         return line_chart("resrc", y_slider_marks[y_value]["label"])
@@ -433,14 +433,14 @@ def update_bar_chart(hoverdata, pathname, y_value, x_value):
         return bar_chart("TRANSPORTATION", scenario, year)
     elif pathname == "/community-services":
         return bar_chart(
-            "CRITICAL COMMUNITY AND EMERGENCY FACILITIES", scenario, year
+            "COMMUNITY SERVICES", scenario, year
         )
     elif pathname == "/natural-cultural-resources":
         return bar_chart(
-            "NATURAL, CULTURAL, AND HISTORICAL RESOURCES", scenario, year
+            "NATURAL & CULTURAL RESOURCES", scenario, year
         )
     elif pathname == "/local-economy":
-        return bar_chart("ECONOMY", scenario, year)
+        return bar_chart("LOCAL ECONOMY", scenario, year)
 
 
 @callback(
