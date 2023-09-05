@@ -16,6 +16,7 @@ layout = html.Div(
                 "text-align": "center",
                 "margin-bottom": "0px",
             },
+            className="hidden-mobile",
         ),
         html.Div(
             children="""
@@ -30,12 +31,19 @@ layout = html.Div(
                 "margin-left": "auto",
                 "margin-right": "auto",
             },
+            className="hidden-mobile",
         ),
         html.Img(
             src="../assets/image/rck_logo.png",
             style={"width": "350px", "margin-bottom": "20px"},
         ),
-        dbc.Button("GET STARTED", className="homebtn", href="/viewer/housing"),
+        html.Div(
+            children=[
+                dbc.Button("GET STARTED", className="homebtn", href="/viewer/housing"),
+                # dbc.Button("LIVE TRACKER", className="homebtn", href="/tracker", style={"margin-left": "20px"})
+            ],
+            style={"display": "inline-block"},
+        ),
         html.Div(
             children="Disclaimer",
             style={
