@@ -1,3 +1,8 @@
+document.documentElement.style.setProperty(
+    '--nav-height',
+    document.getElementById("navbar").offsetHeight
+);
+
 const legendTips = {
     "MHHW": "Mean Higher High Water",
     "EWL1R": "Extreme Water Level 1-year Return",
