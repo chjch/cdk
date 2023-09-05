@@ -72,6 +72,7 @@ navbar = dbc.Navbar(
         fluid=True,
         class_name="px-4",
     ),
+    id="navbar",
     color="#ffffff",
     dark=False,
     class_name="px-4 py-3",
