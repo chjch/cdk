@@ -22,6 +22,7 @@ external_stylesheets = [
     "https://cdnjs.cloudflare.com/ajax/libs/shepherd.js/11.1.1/css/shepherd.css",
     "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap",
     dbc.themes.MATERIA,
+    dbc.icons.FONT_AWESOME,  # Font Awesome icons
     # BS
 ]
 
