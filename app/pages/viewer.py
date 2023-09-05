@@ -254,7 +254,7 @@ def layout(asset_type=None):
             dbc.Row(
                 id="content",
                 children=[chart_column, map_column],
-                class_name="g-0 px-3",
+                className="g-0 px-3",
             ),
         ]
     )
