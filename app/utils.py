@@ -26,11 +26,11 @@ scenarios = [
     "CAT5",
 ]
 asset_axis_title = {
-    "CRITICAL COMMUNITY AND EMERGENCY FACILITIES": "Community Services",
+    "COMMUNITY SERVICES": "Community Services",
     "CRITICAL INFRASTRUCTURE": "Critical Infrastructure",
-    "NATURAL, CULTURAL, AND HISTORICAL RESOURCES": "Natural & Cultural Resources",
+    "NATURAL & CULTURAL RESOURCES": "Natural & Cultural Resources",
     "TRANSPORTATION": "Transportation",
-    "ECONOMY": "Local Economy",
+    "LOCAL ECONOMY": "Local Economy",
     "HOUSING": "Housing",
 }
 
