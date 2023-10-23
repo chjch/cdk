@@ -13,6 +13,30 @@ dash.register_page(
     __name__, title="Flood Risk Viewer", path_template="/viewer/<asset_type>"
 )
 
+dropdown = html.Div(
+    [
+        dbc.DropdownMenu(
+            [
+                dbc.DropdownMenuItem(
+                    "HOUSING", href="/viewer/housing", n_clicks=0,
+                ),
+                dbc.DropdownMenuItem(
+                    "TRANSPORTATION", href="/viewer/transportation",
+                ),
+                dbc.DropdownMenuItem(
+                    "CRITICAL INFRASTRUCTURE", href="/viewer/critical-infrastructure",
+                ),
+                dbc.DropdownMenuItem(
+                    "COMMUNITY SERVICES", href="/viewer/community-services",
+                ),
+            ],
+            label="Menu",
+        ),
+        html.P(id="item-clicks", className="mt-3"),
+    ],
+    className="show-mobile",
+)
+
 # chart dbc column
 chart_column = dbc.Col(
     [
@@ -39,6 +63,7 @@ chart_column = dbc.Col(
             style={"height": "28vh"},
         ),
     ],
+    className="hidden-mobile",
     width=4,
 )
 chart_column = collapse_component(
@@ -179,6 +204,7 @@ map_legend_toast = html.Div(
         "position": "absolute",
         "z-index": 1,
     },
+    className="legend-btn",
 )
 basemap_dropdown = dcc.Dropdown(
     ["Satellite", "Road map"],
@@ -500,3 +526,12 @@ def toggle_navbar_collapse(n, is_open):
     if n:
         return not is_open
     return is_open
+
+
+@callback(
+    Output("item-clicks", "children"), [Input("dropdown-button", "n_clicks")]
+)
+def count_clicks(n):
+    if n:
+        return f"Button clicked {n} times."
+    return "Button not clicked yet."
