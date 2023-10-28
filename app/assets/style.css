@@ -354,3 +354,61 @@ th, td {
         display: none;
     }
 }
+
+.show-mobile {
+    display: none;
+}
+
+@media (max-width: 500px) {
+    .show-mobile {
+        display: flex !important;
+    }
+    .col-4, #map-y-slider-collapse, #map-x-slider-collapse, #map-expansion-btn, .navbar-toggler  {
+        display: none !important;
+    }
+    .map_viewport {
+        height: calc(100vh - var(--nav-height)) !important;
+    }
+    #map-container {
+        margin: 0px;
+        padding: 0px;
+    }
+    #map-panel {
+        width: 100% !important;
+    }
+    .px-3 {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+    .py-3 {
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+    .legend-btn {
+        bottom: 15px !important;
+        left: 5x !important;
+    }
+    #basemap-dropdown {
+        top: -10px !important;
+    }
+}
+
+.info-btn {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    margin: 10px;
+    background-color: #5FCD94;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-title {
+    color: #000000;
+}
