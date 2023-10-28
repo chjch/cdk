@@ -159,6 +159,13 @@ th, td {
     background-color: #4E9BEE;
 }
 
+#adaptation-button {
+    background-color: #FF5500;
+}
+#adaptation-button:hover {
+    background-color: #FFAA00;
+}
+
 .homebtn {
     padding: 10px 25px;
     font-size: 14px;
