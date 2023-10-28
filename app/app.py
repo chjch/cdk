@@ -41,8 +41,8 @@ app.layout = html.Div(dash.page_container)
 
 app.clientside_callback(
     """function () {
-        setTimeout(function() {createIntroTour()}, 500);
         setTimeout(function() {addListeners()}, 1000);
+        setTimeout(function() {createIntroTour()}, 300);
         return 0;
     }""",
     Output("intro-message", "n_clicks"),

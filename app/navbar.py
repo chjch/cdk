@@ -51,9 +51,10 @@ navbar_right = dbc.Row(
         navbar_btn("Critical Infrastructure", "critical-infrastructure"),
         navbar_btn("Community Services", "community-services"),
         navbar_btn(
-            "Natural & Cultural Resources", "natural-cultural-resources"
+            "Natural & Cultural", "natural-cultural-resources"
         ),
         navbar_btn("Local Economy", "local-economy"),
+        navbar_btn("Adaptation", "adaptation"),
     ],
     className="g-0 ms-auto flex-nowrap mt-3 mt-md-0",
     id="navbar-links-group",

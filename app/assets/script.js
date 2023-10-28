@@ -3,79 +3,73 @@ document.documentElement.style.setProperty(
     document.getElementById("navbar").offsetHeight
 );
 
-const legendTips = {
-    "MHHW": "Mean Higher High Water",
-    "EWL1R": "Extreme Water Level 1-year Return",
-    "EWL2R": "Extreme Water Level 2-year Return",
-    "EWL10R": "Extreme Water Level 10-year Return",
-    "NFHL100": "FEMA 100-year Flood",
-    "CAT1": "Category-1 Hurricane",
-    "CAT3": "Category-3 Hurricane",
-    "CAT5": "Category-5 Hurricane"
-};
-
-const legendPopup = (item) => {
+function addListeners() {
     "use strict";
+    const legendTips = {
+        "MHHW": "Mean Higher High Water",
+        "EWL1R": "Extreme Water Level 1-year Return",
+        "EWL2R": "Extreme Water Level 2-year Return",
+        "EWL10R": "Extreme Water Level 10-year Return",
+        "NFHL100": "FEMA 100-year Flood",
+        "CAT1": "Category-1 Hurricane",
+        "CAT3": "Category-3 Hurricane",
+        "CAT5": "Category-5 Hurricane"
+    };
+    const legendPopup = (item) => {
+        item.addEventListener('mouseover', (event) => {
+            // Get the element that triggered the event
+            const hoveredElement = event.target;
+            const parentElement = hoveredElement.parentNode;
 
-    item.addEventListener('mouseover', (event) => {
-        // Get the element that triggered the event
-        const hoveredElement = event.target;
-        const parentElement = hoveredElement.parentNode;
+            const popup = document.createElement('div');
+            popup.setAttribute('id', 'legend_popup');
+            popup.textContent = legendTips[parentElement.children[0].innerHTML];
+            popup.classList.add('popup');
 
-        const popup = document.createElement('div');
-        popup.setAttribute('id', 'legend_popup');
-        popup.textContent = legendTips[parentElement.children[0].innerHTML];
-        popup.classList.add('popup');
+            const parentPos = parentElement.getBoundingClientRect();
+            const popupMessageTop = parentPos.top - 10;
+            const popupMessageLeft = parentPos.left + parentPos.width + 5;
+            popup.style.top = `${popupMessageTop}px`;
+            popup.style.left = `${popupMessageLeft}px`;
+            document.body.appendChild(popup);
+        });
 
-        const parentPos = parentElement.getBoundingClientRect();
-        const popupMessageTop = parentPos.top - 10;
-        const popupMessageLeft = parentPos.left + parentPos.width + 5;
-        popup.style.top = `${popupMessageTop}px`;
-        popup.style.left = `${popupMessageLeft}px`;
-        document.body.appendChild(popup);
-    });
+        item.addEventListener("mouseout", () => {
+            const popup = document.getElementById("legend_popup");
+            document.body.removeChild(popup);
+        });
+    };
+    const sliderPopup = (item) => {
+        item.addEventListener('mouseover', (event) => {
+            // Get the element that triggered the event
+            const hoveredElement = event.target;
 
-    item.addEventListener("mouseout", () => {
-        const popup = document.getElementById("legend_popup");
-        document.body.removeChild(popup);
-    });
-};
+            const popup = document.createElement('div');
+            popup.setAttribute('id', 'slider_popup');
+            popup.textContent = legendTips[hoveredElement.innerHTML];
+            popup.classList.add('popup');
 
-const sliderPopup = (item) => {
-    "use strict";
+            const popup_hidden_span = document.createElement('span');
+            popup_hidden_span.style.visibility = "hidden";
+            popup_hidden_span.innerHTML = popup.textContent;
+            document.body.appendChild(popup_hidden_span);
 
-    item.addEventListener('mouseover', (event) => {
-        // Get the element that triggered the event
-        const hoveredElement = event.target;
+            const hoveredPos = hoveredElement.getBoundingClientRect();
+            const popupMessageTop = hoveredPos.top - 10;
+            const popupMessageLeft = hoveredPos.left - hoveredPos.width - popup_hidden_span.offsetWidth;
+            document.body.removeChild(popup_hidden_span);
 
-        const popup = document.createElement('div');
-        popup.setAttribute('id', 'slider_popup');
-        popup.textContent = legendTips[hoveredElement.innerHTML];
-        popup.classList.add('popup');
+            popup.style.top = `${popupMessageTop}px`;
+            popup.style.left = `${popupMessageLeft}px`;
+            document.body.appendChild(popup);
+        });
 
-        const popup_hidden_span = document.createElement('span');
-        popup_hidden_span.style.visibility = "hidden";
-        popup_hidden_span.innerHTML = popup.textContent;
-        document.body.appendChild(popup_hidden_span);
+        item.addEventListener("mouseout", () => {
+            const popup = document.getElementById("slider_popup");
+            document.body.removeChild(popup);
+        });
+    };
 
-        const hoveredPos = hoveredElement.getBoundingClientRect();
-        const popupMessageTop = hoveredPos.top - 10;
-        const popupMessageLeft = hoveredPos.left - hoveredPos.width - popup_hidden_span.offsetWidth;
-        document.body.removeChild(popup_hidden_span);
-
-        popup.style.top = `${popupMessageTop}px`;
-        popup.style.left = `${popupMessageLeft}px`;
-        document.body.appendChild(popup);
-    });
-
-    item.addEventListener("mouseout", () => {
-        const popup = document.getElementById("slider_popup");
-        document.body.removeChild(popup);
-    });
-};
-
-const addListeners = () => {
-    "use strict";
     const lineChart = document.getElementById("line-chart");
     const legendItems = lineChart.getElementsByClassName("traces");
 

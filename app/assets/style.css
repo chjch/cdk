@@ -348,3 +348,9 @@ th, td {
 .legend .asset-level8 {
     background-color: #000000;
 }
+
+@media (max-width: 500px) {
+    .hidden-mobile {
+        display: none;
+    }
+}

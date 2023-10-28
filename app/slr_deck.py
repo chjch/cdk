@@ -18,9 +18,6 @@ load_dotenv()
 roadmap = "mapbox://styles/chjch/clksmew8z017u01qkbvbd7t32"
 satellite = "mapbox://styles/mapbox/satellite-v9"
 
-CDK_LATITUDE = 29.139219
-CDK_LONGITUDE = -83.040895
-
 CESIUM_ASSET_ID = 1891205
 
 sun_light = {
@@ -155,8 +152,14 @@ def bfp_data(scn, year):
     return df.to_json(orient="records")
 
 
-def slr_scenario(pathname, scn_code, year, default_mb_style="Road map"):
-    if default_mb_style == "Satellite":
+def slr_scenario(
+    pathname,
+    scn_code,
+    year,
+    initial_mb_style,
+    view_state,
+):
+    if initial_mb_style == "Satellite":
         mb_style = satellite
     else:
         mb_style = roadmap
@@ -189,6 +192,53 @@ def slr_scenario(pathname, scn_code, year, default_mb_style="Road map"):
         "data": scn_tile_url(scn_code, year),
         "id": f"slr-tile-{scn_code}-{year}",
         "opacity": 0.8,
+    }
+
+    adapt_dem_layer = {
+        "@@type": "MyTileLayer",
+        "data": (
+            "https://tiles.arcgis.com/tiles/LBbVDC0hKPAnLRpO/arcgis/"
+            "rest/services/CK_DEM_tile/MapServer/WMTS/tile/"
+            "1.0.0/CK_DEM_tile/default/default028mm"
+            "/{z}/{y}/{x}.png"
+        ),
+        "id": "adaptation-dem",
+        "opacity": 0.95,
+    }
+
+    adapt_plan_layer = {
+        "@@type": "MyTileLayer",
+        "data": (
+            "https://tiles.arcgis.com/tiles/LBbVDC0hKPAnLRpO/arcgis/"
+            "rest/services/CK_adapt_plan_tile_map_nb/MapServer/WMTS/tile/"
+            "1.0.0/CK_adapt_plan_tile_map_nb/default/default028mm"
+            "/{z}/{y}/{x}.png"
+        ),
+        "id": "adaptation-plan",
+        "opacity": 1,
+    }
+
+    bldg_adapt_3d_layer = {
+        "@@type": "Tile3DLayer",
+        "id": "bldg-adapt-3d",
+        "loader": "@@#CesiumIonLoader",
+        "opacity": 1,
+        "data": cesium_tile_url(CESIUM_ASSET_ID),
+        "loadOptions": {
+            "cesium-ion": {"accessToken": cesium_token},
+        },
+        "pickable": False,
+        "_subLayerProps": {
+            "scenegraph": {
+                "_lighting": "pbr",
+                "getColor": [177, 198, 220, 255],
+                "material": {
+                    "ambient": 0.5,
+                    "diffuse": 0.5,
+                    "specularColor": [255, 255, 255],
+                },
+            }
+        },
     }
 
     bldg_3d_layer = {
@@ -235,10 +285,18 @@ def slr_scenario(pathname, scn_code, year, default_mb_style="Road map"):
             asset_points_layer(scn_code, year, pathname),
         ]
         tooltip_html = tooltip_transportation_html
-        if not default_mb_style:
-            default_mb_style = "Satellite"
+        if not initial_mb_style:
+            initial_mb_style = "Satellite"
     elif pathname == "/housing" or pathname == "/":
         layers = [slr_tile_layer, bldg_3d_layer, bfp_layer]
+        tooltip_html = tooltip_housing_html
+    elif pathname == "/adaptation":
+        layers = [
+            adapt_dem_layer,
+            adapt_plan_layer,
+            bldg_adapt_3d_layer,
+            bfp_layer,
+        ]
         tooltip_html = tooltip_housing_html
     else:
         layers = [
@@ -247,17 +305,8 @@ def slr_scenario(pathname, scn_code, year, default_mb_style="Road map"):
             asset_points_layer(scn_code, year, pathname),
         ]
         tooltip_html = tooltip_asset_html
-
     json_data = {
-        "initialViewState": {
-            "bearing": 0,
-            "latitude": CDK_LATITUDE,
-            "longitude": CDK_LONGITUDE,
-            "maxZoom": 18,
-            "minZoom": 12,
-            "pitch": 50,
-            "zoom": 15.2,
-        },
+        "initialViewState": view_state,
         "layers": layers,
         "mapProvider": "mapbox",
         "mapStyle": mb_style,

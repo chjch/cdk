@@ -9,6 +9,9 @@ from charts import line_chart, bar_chart
 from intro import intro_msg
 from utils import collapse_component
 
+CDK_LATITUDE = 29.139219
+CDK_LONGITUDE = -83.040895
+
 dash.register_page(
     __name__, title="Flood Risk Viewer", path_template="/viewer/<asset_type>"
 )
@@ -133,7 +136,7 @@ map_legend_btn_content = html.Span(
             style={"paddingRight": "0.5vw", "display": "inline-block"},
         ),
         html.I(
-            className="	fa fa-chevron-circle-up",
+            className="fa fa-chevron-circle-up",
             id="legend-icon",
             style={"display": "inline-block"},
         ),
@@ -151,7 +154,7 @@ map_legend_toast = html.Div(
                 "width": "100%",
                 "font-family": "Sans-Serif",
             },
-            # className="mb-3",
+            # className="d-none",
             n_clicks=0,
         ),
         dbc.Toast(
@@ -214,6 +217,77 @@ map_expansion_btn = dbc.Button(
         "z-index": 1,
     },
 )
+adapt_proj_list = dbc.Card(
+    [
+        dbc.CardHeader(
+            "Adaptation Projects",
+            className="d-flex justify-content-center",
+            style={"font-family": "Poppins", "font-size": "0.9em", "background-color": "#0E3183", "color": "white"},
+        ),
+        dbc.CardBody(
+            dcc.RadioItems(
+                [
+                    {
+                        "label": html.Span(
+                            "Transportation Infrastructure: 3rd St",
+                            style={
+                                "font-size": "0.8em",
+                                "font-family": "Poppins",
+                                "padding-left": 10,
+                            },
+                        ),
+                        "value": "1",
+                    },
+                    {
+                        "label": html.Span(
+                            "Relocation and redevelopment: City Hall",
+                            style={
+                                "font-size": "0.8em",
+                                "font-family": "Poppins",
+                                "padding-left": 10,
+                            },
+                        ),
+                        "value": "2",
+                    },
+                    {
+                        "label": html.Span(
+                            "Waterflow Embracing Neighborhoods: Mid CK",
+                            style={
+                                "font-size": "0.8em",
+                                "font-family": "Poppins",
+                                "padding-left": 10,
+                            },
+                        ),
+                        "value": "3",
+                    },
+                    {
+                        "label": html.Span(
+                            "Green Flood Buffers: West CK",
+                            style={
+                                "font-size": "0.8em",
+                                "font-family": "Poppins",
+                                "padding-left": 10,
+                            },
+                        ),
+                        "value": "4",
+                    },
+                ],
+                value="1",
+                id="proj-radio-items",
+                labelStyle={"display": "flex", "align-items": "center"},
+            )
+        ),
+    ],
+    style={
+        "top": "40px",
+        "left": "40px",
+        # "width": "250px",
+        "font-size": "1.2em",
+        "position": "absolute",
+        "z-index": 1,
+    },
+    id="adapt-proj-list-card",
+)
 main_map = html.Div(
     children=[],
     id="map",
@@ -228,6 +302,7 @@ map_column = dbc.Col(
                     [
                         main_map,
                         map_expansion_btn,
+                        adapt_proj_list,
                         basemap_dropdown,
                         map_legend_toast,
                     ],
@@ -274,15 +349,85 @@ def update_housing_button_status(pathname):
         Input("map-x-slider", "value"),
         Input("map-y-slider", "value"),
         Input("basemap-dropdown", "value"),
+        Input("proj-radio-items", "value"),
     ],
 )
-def update_map(pathname, x_value, y_value, basemap):
+def update_map(pathname, x_value, y_value, basemap, proj):
+    view_states = {
+        "0": {
+            "bearing": 0,
+            "latitude": CDK_LATITUDE,
+            "longitude": CDK_LONGITUDE,
+            "maxZoom": 18,
+            "minZoom": 12,
+            "pitch": 50,
+            "zoom": 15.2,
+        },
+        "1": {
+            "bearing": -27,
+            "latitude": 29.137327,
+            "longitude": -83.032236,
+            "maxZoom": 20,
+            "minZoom": 16,
+            "pitch": 49,
+            "zoom": 17.6,
+        },
+        "2": {
+            "bearing": 12,
+            "latitude": 29.137639,
+            "longitude": -83.037938,
+            "maxZoom": 20,
+            "minZoom": 16,
+            "pitch": 50,
+            "zoom": 18,
+        },
+        "3": {
+            "bearing": -2,
+            "latitude": 29.146313,
+            "longitude": -83.042476,
+            "maxZoom": 20,
+            "minZoom": 16,
+            "pitch": 46,
+            "zoom": 17,
+        },
+        "4": {
+            "bearing": -1.8,
+            "latitude": 29.143380,
+            "longitude": -83.051921,
+            "maxZoom": 20,
+            "minZoom": 16,
+            "pitch": 45,
+            "zoom": 16.75,
+        },
+    }
     pathname = "/" + pathname.split("/")[-1]
-    if pathname == "/viewer":
-        pathname = "/"
-    return slr_scenario(
-        pathname, y_slider_marks[y_value]["label"], x_value, basemap
-    )
+    if pathname == "/adaptation":
+        if basemap is None:
+            return slr_scenario(
+                pathname,
+                y_slider_marks[3]["label"],
+                2040,
+                "Satellite",
+                view_states[proj],
+            )
+        else:
+            return slr_scenario(
+                pathname,
+                y_slider_marks[3]["label"],
+                2040,
+                basemap,
+                view_states[proj],
+            )
+    else:
+        if pathname == "/viewer":
+            pathname = "/"
+        return slr_scenario(
+            pathname,
+            y_slider_marks[y_value]["label"],
+            x_value,
+            basemap,
+            view_states["0"],
+        )
 
 
 @callback(
@@ -295,9 +440,20 @@ def update_map(pathname, x_value, y_value, basemap):
         Output("map", "className"),
         Output("content", "className"),
     ],
-    [Input("map-expansion-btn", "n_clicks")],
+    [Input("map-expansion-btn", "n_clicks"), Input("sub-path", "pathname")],
 )
-def expand_map(n):
+def expand_map(n, pathname):
+    pathname = "/" + pathname.split("/")[-1]
+    if pathname == "/adaptation":
+        return (
+            False,
+            False,
+            False,
+            {"width": "100%"},
+            "pretty_container_expanded",
+            "map_viewport_expanded",
+            "g-0 px-0",
+        )
     if n == 0:
         return no_update
     if n % 2 == 0:
@@ -392,7 +548,7 @@ def update_intro_msg(pathname):
 )
 def update_line_chart(pathname, y_value):
     pathname = "/" + pathname.split("/")[-1]
-    if pathname == "/housing":
+    if pathname == "/housing" or pathname == "/adaptation":
         return line_chart("housing", y_slider_marks[y_value]["label"])
     elif pathname == "/critical-infrastructure":
         return line_chart("infra", y_slider_marks[y_value]["label"])
@@ -425,20 +581,16 @@ def update_bar_chart(hoverdata, pathname, y_value, x_value):
     else:
         year = hoverdata["points"][0]["x"]
         scenario = hoverdata["points"][0]["customdata"][0]
-    if pathname == "/housing":
+    if pathname == "/housing" or pathname == "/adaptation":
         return bar_chart("HOUSING", scenario, year)
     elif pathname == "/critical-infrastructure":
         return bar_chart("CRITICAL INFRASTRUCTURE", scenario, year)
     elif pathname == "/transportation":
         return bar_chart("TRANSPORTATION", scenario, year)
     elif pathname == "/community-services":
-        return bar_chart(
-            "COMMUNITY SERVICES", scenario, year
-        )
+        return bar_chart("COMMUNITY SERVICES", scenario, year)
     elif pathname == "/natural-cultural-resources":
-        return bar_chart(
-            "NATURAL & CULTURAL RESOURCES", scenario, year
-        )
+        return bar_chart("NATURAL & CULTURAL RESOURCES", scenario, year)
     elif pathname == "/local-economy":
         return bar_chart("LOCAL ECONOMY", scenario, year)
 
@@ -470,7 +622,9 @@ def open_toast(n):
 
 @callback(
     [Output("legend-icon", "className"), Output("legend-text", "children")],
-    [Input("legend-toast", "is_open")],
+    [
+        Input("legend-toast", "is_open"),
+    ],
 )
 def update_map_legend_button(is_open):
     if is_open:
@@ -488,6 +642,36 @@ def toggle_map_expand_btn(is_open):
         return "fas fa-expand"
     else:
         return "fas fa-compress"
+
+
+@callback(
+    Output("map-expansion-btn", "className"),
+    [Input("sub-path", "pathname")],
+)
+def hide_map_expand_btn(pathname):
+    pathname = "/" + pathname.split("/")[-1]
+    if pathname == "/adaptation":
+        return "d-none"
+
+
+@callback(
+    Output("legend-button", "className"),
+    [Input("sub-path", "pathname")],
+)
+def hide_legend_button(pathname):
+    pathname = "/" + pathname.split("/")[-1]
+    if pathname == "/adaptation":
+        return "d-none"
+
+
+@callback(
+    Output("adapt-proj-list-card", "className"),
+    [Input("sub-path", "pathname")],
+)
+def hide_adapt_proj_card(pathname):
+    pathname = "/" + pathname.split("/")[-1]
+    if pathname != "/adaptation":
+        return "d-none"
 
 
 # add callback for toggling the collapse on small screens
