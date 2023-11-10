@@ -356,6 +356,14 @@ th, td {
     background-color: #000000;
 }
 
+#mobile-dropup-row {
+    height: 45px;
+    width: auto;
+    padding-top:2px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
 @media (max-width: 500px) {
     .hidden-mobile {
         display: none;
@@ -383,9 +391,13 @@ th, td {
     #map-panel {
         width: 100% !important;
     }
-    .px-3 {
+    .px-3, .ms-2.navbar-brand {
         padding-left: 0px !important;
         padding-right: 0px !important;
+    }
+    .px-4 {
+        padding-left: 0.5rem !important;
+        padding-right: 1.5rem !important;
     }
     .py-3 {
         padding-top: 0px !important;
@@ -397,6 +409,28 @@ th, td {
     }
     #basemap-dropdown {
         top: -10px !important;
+        right: 0px !important;
+    }
+    .g-0 {
+        flex-wrap: nowrap !important;
+    }
+    .mt-3 {
+        top: -10px;
+        left: 10px;
+        width: 50px;
+        height: 30px;
+        position: absolute;
+        z-index: 100;
+    }
+    .dropup-row, .dropup-group {
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+        justify-content: center;
+    }
+    .dropup {
+        width: 100% !important;
     }
 }
 
