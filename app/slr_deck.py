@@ -311,6 +311,7 @@ def slr_scenario(
         "mapProvider": "mapbox",
         "mapStyle": mb_style,
         "views": [{"@@type": "MapView", "controller": True}],
+        "controller": {"doubleClickZoom": False, "touchRotate": True},
         # "effects": [lighting_effect]
     }
     return dash_deck.DeckGL(
