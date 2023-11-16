@@ -141,7 +141,18 @@ map_legend_btn_content = html.Span(
             id="legend-icon",
             style={"display": "inline-block"},
         ),
-    ]
+    ],
+    className="hidden-mobile",
+)
+map_legend_btn_content_mobile = html.Span(
+    [
+        html.I(
+            className="fa-solid fa-list",
+            id="legend-icon-mobile",
+            style={"display": "flex"},
+        ),
+    ],
+    className="show-mobile",
 )
 map_legend_toast = html.Div(
     [
@@ -157,6 +168,21 @@ map_legend_toast = html.Div(
             },
             # className="d-none",
             n_clicks=0,
+            className="hidden-mobile",
+        ),
+        dbc.Button(
+            children=[map_legend_btn_content_mobile],
+            id="legend-button-mobile",
+            color="primary",
+            style={
+                "margin-bottom": "5px",
+                "text-transform": "none",
+                "width": "100%",
+                "font-family": "Sans-Serif",
+            },
+            # className="d-none",
+            n_clicks=0,
+            className="show-mobile mobile-legend-btn",
         ),
         dbc.Toast(
             [map_legend],
@@ -171,14 +197,30 @@ map_legend_toast = html.Div(
             # icon="primary",
             dismissable=False,
             is_open=False,
+            className="hidden-mobile",
+        ),
+        dbc.Toast(
+            [map_legend],
+            id="legend-toast-mobile",
+            header="",
+            header_style={
+                "font-size": "13.5px",
+                "font-family": "Sans-Serif",
+                "font-weight": "bold",
+                "margin-right": "0px",
+            },
+            # icon="primary",
+            dismissable=False,
+            is_open=False,
+            className="show-mobile",
         ),
     ],
     style={
         "bottom": "70px",
         "left": "45px",
-        "width": "15%",
+        "width": "auto",
         "max-width": "200px",
-        "min-width": "160px",
+        "min-width": "50px",
         "height": "auto",
         "position": "absolute",
         "z-index": 1,
@@ -726,6 +768,31 @@ def update_map_legend_button(is_open):
         return "fa fa-chevron-circle-down", "Hide Legend"
     else:
         return "fa fa-chevron-circle-up", "Show Legend"
+    
+@callback(
+    Output("legend-toast-mobile", "is_open"),
+    [Input("legend-button-mobile", "n_clicks")],
+)
+def open_toast(n):
+    if n == 0:
+        return no_update
+    if n % 2 == 0:
+        return False
+    else:
+        return True
+
+
+@callback(
+    [Output("legend-icon-mobile", "className")],
+    [
+        Input("legend-toast-mobile", "is_open"),
+    ],
+)
+def update_map_legend_button_mobile(is_open):
+    if is_open:
+        return "fa-solid fa-angles-down",
+    else:
+        return "fa-solid fa-list",
 
 
 @callback(

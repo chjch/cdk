@@ -8,7 +8,7 @@ navbar_brand = html.A(
     # Use row and col to control vertical alignment of logo / brand
     dbc.Row(
         [
-            dbc.Col(html.Img(src=NAVBAR_LOGO, height="40px")),
+            dbc.Col(html.Img(src=NAVBAR_LOGO, height="40px", className="hidden-mobile")),
             dbc.Col(
                 dbc.NavbarBrand(
                     NAVBAR_BRAND_TITLE,

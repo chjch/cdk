@@ -366,12 +366,12 @@ th, td {
 
 @media (max-width: 500px) {
     .hidden-mobile {
-        display: none;
+        display: none !important;
     }
 }
 
 .show-mobile {
-    display: none;
+    display: none !important;
 }
 
 @media (max-width: 500px) {
@@ -406,6 +406,11 @@ th, td {
     .legend-btn {
         bottom: 15px !important;
         left: 5px !important;
+        position: fixed;
+        padding: 10px;
+        margin: 10px;
+        justify-content: center;
+        align-items: center;
     }
     #basemap-dropdown {
         top: -10px !important;
@@ -431,6 +436,9 @@ th, td {
     }
     .dropup {
         width: 100% !important;
+    }
+    #legend-button {
+        display: none !important;
     }
 }
 
