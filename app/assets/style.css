@@ -378,7 +378,7 @@ th, td {
     .show-mobile {
         display: flex !important;
     }
-    .col-4, #map-y-slider-collapse, #map-x-slider-collapse, #map-expansion-btn, .navbar-toggler  {
+    #map-y-slider-collapse, #map-x-slider-collapse, #map-expansion-btn, .navbar-toggler  {
         display: none !important;
     }
     .map_viewport {
@@ -404,7 +404,7 @@ th, td {
         padding-bottom: 0px !important;
     }
     .legend-btn {
-        bottom: 15px !important;
+        bottom: 40px !important;
         left: 5px !important;
         position: fixed;
         padding: 10px;
@@ -439,6 +439,21 @@ th, td {
     }
     #legend-button {
         display: none !important;
+    }
+    .col-4 {
+        width: 100% !important;
+    }
+    #mobile_tab_menu {
+        height: calc(100vh - var(--nav-height)) !important;
+    }
+    #intro-message {
+        height: 80vh !important;
+    }
+    #line-chart, #bar-chart {
+        height: 40vh !important;
+    }
+    .nav {
+        justify-content: space-evenly;
     }
 }
 

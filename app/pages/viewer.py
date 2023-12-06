@@ -16,14 +16,20 @@ dash.register_page(
     __name__, title="Flood Risk Viewer", path_template="/viewer/<asset_type>"
 )
 
+intro_message = html.Div(
+    children=[],
+            id="intro-message",
+            className="pretty_container",
+            style={"height": "25vh", "overflow": "auto"},
+)
+
+
 # chart dbc column
 chart_column = dbc.Col(
     [
         html.Div(
-            children=[],
-            id="intro-message",
-            className="pretty_container",
-            style={"height": "25vh", "overflow": "auto"},
+            intro_message,
+            className="hidden-mobile",
         ),
         dcc.Graph(
             # figure={},
@@ -42,7 +48,6 @@ chart_column = dbc.Col(
             style={"height": "28vh"},
         ),
     ],
-    className="hidden-mobile",
     width=4,
 )
 chart_column = collapse_component(
@@ -451,6 +456,21 @@ map_column = dbc.Col(
     className="hstack gap-2",
 )
 
+mobile_tabs = html.Div(
+    [
+        dbc.Tabs(
+                    [
+                        dbc.Tab(map_column, label="Map", tab_id="map_column"),
+                        dbc.Tab(chart_column, label="Flooding Risk View", tab_id="chart_column"),
+                        dbc.Tab(intro_message, label="Key Values", tab_id="intro"),
+                    ],
+                    id="mobile_tabs",
+                    active_tab="map_column",
+                ),
+                html.Div(id="content-mobile")
+    ]
+)
+
 
 # the main layout of the page
 def layout(asset_type=None):
@@ -461,13 +481,18 @@ def layout(asset_type=None):
             dbc.Row(
                 id="content",
                 children=[chart_column, map_column],
-                className="g-0 px-3",
+                className="hidden-mobile g-0 px-3",
+            ),
+            dbc.Row(
+                id="mobile_tab_menu",
+                children=[mobile_tabs],
+                className="show-mobile g-0 px-3",
             ),
             dbc.Row(
                 id="mobile-dropup-row",
                 children=[mobile_dropups],
                 className="show-mobile",
-            )
+            ),
         ]
     )
 
@@ -854,3 +879,16 @@ def count_clicks(n):
     if n:
         return f"Button clicked {n} times."
     return "Button not clicked yet."
+
+#Mobile Tabs Callback function, disabled for now
+"""
+@callback(Output("content-mobile", "children"), [Input("mobile_tabs", "active_tab")])
+def switch_tab(at):
+    if at == "chart_column":
+        return chart_column
+    elif at == "map_column":
+        return map_column
+    elif at == "intro":
+        return intro_message
+    return html.P("This shouldn't ever be displayed...")
+"""
