@@ -34,10 +34,34 @@ app = Dash(
     suppress_callback_exceptions=True,
 )
 app.title = "Cedar Key Dashboard"
-
 server = app.server
-
 app.layout = html.Div(dash.page_container)
+app.index_string = '''
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Google tag (gtag.js) --> 
+        <script async src=https://www.googletagmanager.com/gtag/js?id=G-B38C8RBNMV></script> 
+        <script> 
+            window.dataLayer = window.dataLayer || []; 
+            function gtag(){dataLayer.push(arguments);} 
+            gtag('js', new Date()); gtag('config', 'G-B38C8RBNMV'); 
+        </script>
+        {%metas%}
+        <title>{%title%}</title>
+        {%favicon%}
+        {%css%}
+    </head>
+    <body>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>
+'''
 
 app.clientside_callback(
     """function () {
