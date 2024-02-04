@@ -202,6 +202,7 @@ basemap_dropdown = dcc.Dropdown(
         "z-index": 1,
     },
 )
+
 mobile_dropups = dbc.Row(
     [
         dbc.ButtonGroup([
@@ -290,6 +291,7 @@ mobile_dropups = dbc.Row(
     className="dropup-row",
     justify="evenly",
 )
+
 map_expansion_btn = dbc.Button(
     children=html.I(className="fas fa-expand", id="map-expansion-icon"),
     id="map-expansion-btn",
@@ -307,82 +309,22 @@ map_expansion_btn = dbc.Button(
         "z-index": 1,
     },
 )
-adapt_proj_list = dbc.Card(
-    [
-        dbc.CardHeader(
-            "Adaptation Projects",
-            className="d-flex justify-content-center",
-            style={"font-family": "Poppins", "font-size": "0.9em", "background-color": "#0E3183", "color": "white"},
-        ),
-        dbc.CardBody(
-            dcc.RadioItems(
-                [
-                    {
-                        "label": html.Span(
-                            "Transportation Infrastructure: 3rd St",
-                            style={
-                                "font-size": "0.8em",
-                                "font-family": "Poppins",
-                                "padding-left": 10,
-                            },
-                        ),
-                        "value": "1",
-                    },
-                    {
-                        "label": html.Span(
-                            "Relocation and redevelopment: City Hall",
-                            style={
-                                "font-size": "0.8em",
-                                "font-family": "Poppins",
-                                "padding-left": 10,
-                            },
-                        ),
-                        "value": "2",
-                    },
-                    {
-                        "label": html.Span(
-                            "Waterflow Embracing Neighborhoods: Mid CK",
-                            style={
-                                "font-size": "0.8em",
-                                "font-family": "Poppins",
-                                "padding-left": 10,
-                            },
-                        ),
-                        "value": "3",
-                    },
-                    {
-                        "label": html.Span(
-                            "Green Flood Buffers: West CK",
-                            style={
-                                "font-size": "0.8em",
-                                "font-family": "Poppins",
-                                "padding-left": 10,
-                            },
-                        ),
-                        "value": "4",
-                    },
-                ],
-                value="1",
-                id="proj-radio-items",
-                labelStyle={"display": "flex", "align-items": "center"},
-            )
-        ),
-    ],
-    style={
-        "top": "40px",
-        "left": "40px",
-        # "width": "250px",
-        "font-size": "1.2em",
-        "position": "absolute",
-        "z-index": 1,
-    },
-    id="adapt-proj-list-card",
+
+adapt_proj_box = html.Div(
+    children=[
+        dcc.RadioItems(
+            value=None,
+            id="proj-radio-items",
+            style={"display": "none"})
+    ], id="adapt-proj-box"
 )
+
 main_map = html.Div(
     children=[],
     id="map",
     className="map_viewport",
 )
+
 # --- map dbc column ---
 map_column = dbc.Col(
     [
@@ -392,12 +334,13 @@ map_column = dbc.Col(
                     [
                         main_map,
                         map_expansion_btn,
-                        adapt_proj_list,
+                        adapt_proj_box,
                         basemap_dropdown,
                         map_legend_toast,
                     ],
                     id="map-container",
                     className="pretty_container",
+                    style={"z-index": "1000"}
                 ),
                 map_x_slider,
             ],
@@ -760,13 +703,90 @@ def hide_legend_button(pathname):
 
 
 @callback(
-    Output("adapt-proj-list-card", "className"),
+    Output("adapt-proj-box", "children"),
     [Input("sub-path", "pathname")],
 )
-def hide_adapt_proj_card(pathname):
+def show_adapt_proj_card(pathname):
     pathname = "/" + pathname.split("/")[-1]
-    if pathname != "/adaptation":
-        return "d-none"
+    if pathname == "/adaptation":
+        return dbc.Card(
+            [
+                dbc.CardHeader(
+                    "Adaptation Projects",
+                    className="d-flex justify-content-center",
+                    style={
+                        "font-family": "Poppins",
+                        "font-size": "0.9em",
+                        "background-color": "#0E3183",
+                        "color": "white"
+                    },
+                ),
+                dbc.CardBody(
+                    dcc.RadioItems(
+                        [
+                            {
+                                "label": html.Span(
+                                    "Transportation Infrastructure: 3rd St",
+                                    style={
+                                        "font-size": "0.8em",
+                                        "font-family": "Poppins",
+                                        "padding-left": 10,
+                                    },
+                                ),
+                                "value": "1",
+                            },
+                            {
+                                "label": html.Span(
+                                    "Relocation and redevelopment: City Hall",
+                                    style={
+                                        "font-size": "0.8em",
+                                        "font-family": "Poppins",
+                                        "padding-left": 10,
+                                    },
+                                ),
+                                "value": "2",
+                            },
+                            {
+                                "label": html.Span(
+                                    "Waterflow Embracing Neighborhoods: Mid CK",
+                                    style={
+                                        "font-size": "0.8em",
+                                        "font-family": "Poppins",
+                                        "padding-left": 10,
+                                    },
+                                ),
+                                "value": "3",
+                            },
+                            {
+                                "label": html.Span(
+                                    "Green Flood Buffers: West CK",
+                                    style={
+                                        "font-size": "0.8em",
+                                        "font-family": "Poppins",
+                                        "padding-left": 10,
+                                    },
+                                ),
+                                "value": "4",
+                            },
+                        ],
+                        value="1",
+                        id="proj-radio-items",
+                        labelStyle={"display": "flex", "align-items": "center"},
+                    )
+                ),
+            ],
+            style={
+                "top": "40px",
+                "left": "40px",
+                # "width": "250px",
+                "font-size": "1.2em",
+                "position": "absolute",
+                "z-index": 1,
+            },
+            id="adapt-proj-list-card",
+        )
+    else:
+        return dcc.RadioItems(value=None, id="proj-radio-items", style={"display": "none"})
 
 
 # add callback for toggling the collapse on small screens
@@ -780,6 +800,7 @@ def toggle_navbar_collapse(n, is_open):
         return not is_open
     return is_open
 
+
 @callback(
     Output("item-clicks", "children"), [Input("dropdown-button", "n_clicks")]
 )
@@ -787,3 +808,5 @@ def count_clicks(n):
     if n:
         return f"Button clicked {n} times."
     return "Button not clicked yet."
+
+
