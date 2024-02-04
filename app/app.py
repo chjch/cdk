@@ -1,5 +1,4 @@
 import os
-
 import dash
 from dash import Dash, html, Input, Output
 import dash_bootstrap_components as dbc
