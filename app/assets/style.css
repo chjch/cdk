@@ -125,15 +125,48 @@ a.basemap-roadmap {
     opacity: 0.5 !important;
 }
 
-table, th, td {
-    border: 1px solid white;
+/*table, th, td {*/
+/*    border: 1px solid white;*/
+/*    border-collapse: collapse;*/
+/*}*/
+/*th, td {*/
+/*    border: 1px solid gray;*/
+/*    border-radius: 10px;*/
+/*    padding-left: 10px;*/
+/*    padding-right: 10px;*/
+/*}*/
+
+/* Base styling for the table */
+table {
+    width: 100%; /* Adjust as per your layout */
     border-collapse: collapse;
+    border-spacing: 0;
+    /*margin: 20px; !* Adjust for proper spacing *!*/
+    background-color: #f9f9f9; /* Subtle background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    border-radius: 10px; /* Rounded corners for the table */
+    overflow: hidden; /* Ensures the border-radius is applied */
 }
-th, td {
-    border: 1px solid gray;
-    border-radius: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+
+/* Styling for table headers */
+thead th {
+    background-color: #007BFF; /* Pleasant blue, adjust as needed */
+    line-height: 1.4;
+    height: 30px;
+    color: white;
+    font-weight: normal;
+    padding: 10px 5px; /* More padding for a spacious look */
+    text-align: left; /* Adjust based on preference */
+    border-bottom: 2px solid #f0f0f0; /* Subtle separation from rows */
+    box-sizing: border-box;
+}
+
+/* Styling for table cells */
+td {
+    padding: 10px;
+    border-top: 1px solid #eaeaea; /* Lighter border for a softer look */
+    color: #333; /* Darker text for better readability */
+    vertical-align: middle; /* Adjust based on content */
 }
 
 .popup {
@@ -202,7 +235,7 @@ th, td {
     margin-right: 0px;
 }
 
-/*slider color*/
+/*slider configurations*/
 
 .rc-slider-track {
     background-color: #0E3183;
@@ -248,10 +281,10 @@ th, td {
     list-style: none;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 0px 10px;
     font-family: Poppins;
     font-size: 14px;
-    background-color: rgba(255, 255, 255, 0.35);;
+    background-color: rgba(255, 255, 255, 0);
 }
 
 .legend li {
