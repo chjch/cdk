@@ -109,15 +109,6 @@ tooltip_asset_html = """
 """
 
 
-tooltip_style = {
-    "font-size": "14px",
-    "background-color": "rgba(255, 255, 255, 0.83)",
-    # "padding": "5px 5px 5px 5px",
-    "border-radius": "5px",
-    "z-index": 1000,
-}
-
-
 def road_path_layer_data(scn, year):
     df = pd.read_json(road_json)[
         [
@@ -154,6 +145,31 @@ def bfp_data(scn, year):
     return df.to_json(orient="records")
 
 
+def bldg_3d_data(cesium_asset_id: int, rgba_color: list, html_id: str) -> dict:
+    return {
+        "@@type": "Tile3DLayer",
+        "id": html_id,
+        "loader": "@@#CesiumIonLoader",
+        "opacity": 1,
+        "data": cesium_tile_url(cesium_asset_id),
+        "loadOptions": {
+            "cesium-ion": {"accessToken": cesium_token},
+        },
+        "pickable": False,
+        "_subLayerProps": {
+            "scenegraph": {
+                "_lighting": "pbr",
+                "getColor": rgba_color,
+                "material": {
+                    "ambient": 0.5,
+                    "diffuse": 0.5,
+                    "specularColor": [255, 255, 255],
+                },
+            }
+        },
+    }
+
+
 def slr_scenario(
     pathname,
     scn_code,
@@ -177,17 +193,17 @@ def slr_scenario(
         "opacity": 0,
     }
 
-    bfp_asset_layer = {
-        "@@type": "GeoJsonLayer",
-        "id": "bfp",
-        "data": json.loads(bfp_data(scn_code, year)),
-        "stroked": False,
-        "filled": True,
-        "extruded": False,
-        "pickable": False,
-        "getFillColor": [150, 150, 150],
-        "opacity": 1,
-    }
+    # bfp_asset_layer = {
+    #     "@@type": "GeoJsonLayer",
+    #     "id": "bfp",
+    #     "data": json.loads(bfp_data(scn_code, year)),
+    #     "stroked": False,
+    #     "filled": True,
+    #     "extruded": False,
+    #     "pickable": False,
+    #     "getFillColor": [150, 150, 150],
+    #     "opacity": 1,
+    # }
 
     slr_tile_layer = {
         "@@type": "MyTileLayer",
@@ -220,121 +236,6 @@ def slr_scenario(
         "opacity": 1,
     }
 
-    bldg_adapt_3d_layer = {
-        "@@type": "Tile3DLayer",
-        "id": "bldg-adapt-3d",
-        "loader": "@@#CesiumIonLoader",
-        "opacity": 1,
-        "data": cesium_tile_url(2446032),
-        "loadOptions": {
-            "cesium-ion": {"accessToken": cesium_token},
-        },
-        "pickable": False,
-        "_subLayerProps": {
-            "scenegraph": {
-                "_lighting": "pbr",
-                "getColor": [340, 340, 340, 200],
-                "material": {
-                    "ambient": 0.5,
-                    "diffuse": 0.5,
-                    "specularColor": [255, 255, 255],
-                },
-            }
-        },
-    }
-
-    bldg_3d_transport_layer = {
-        "@@type": "Tile3DLayer",
-        "id": "bldg-transport-3d",
-        "loader": "@@#CesiumIonLoader",
-        "opacity": 1,
-        "data": cesium_tile_url(2446032),
-        "loadOptions": {
-            "cesium-ion": {"accessToken": cesium_token},
-        },
-        "pickable": False,
-        "_subLayerProps": {
-            "scenegraph": {
-                "_lighting": "pbr",
-                "getColor": [340, 340, 340, 150],
-                "material": {
-                    "ambient": 0.5,
-                    "diffuse": 0.5,
-                    "specularColor": [255, 255, 255],
-                },
-            }
-        },
-    }
-
-    bldg_3d_housing_layer = {
-        "@@type": "Tile3DLayer",
-        "id": "bldg-3d",
-        "loader": "@@#CesiumIonLoader",
-        "opacity": 1,
-        "data": cesium_tile_url(2446464),
-        "loadOptions": {
-            "cesium-ion": {"accessToken": cesium_token},
-        },
-        "pickable": False,
-        "_subLayerProps": {
-            "scenegraph": {
-                "_lighting": "pbr",
-                "getColor": [340, 340, 340, 300],
-                "material": {
-                    "ambient": 0.5,
-                    "diffuse": 0.5,
-                    "specularColor": [255, 255, 255],
-                },
-            }
-        },
-    }
-
-    bldg_3d_comm_layer = {
-        "@@type": "Tile3DLayer",
-        "id": "bldg-3d",
-        "loader": "@@#CesiumIonLoader",
-        "opacity": 1,
-        "data": cesium_tile_url(2446457),
-        "loadOptions": {
-            "cesium-ion": {"accessToken": cesium_token},
-        },
-        "pickable": False,
-        "_subLayerProps": {
-            "scenegraph": {
-                "_lighting": "pbr",
-                "getColor": [340, 340, 340, 300],
-                "material": {
-                    "ambient": 0.5,
-                    "diffuse": 0.5,
-                    "specularColor": [255, 255, 255],
-                },
-            }
-        },
-    }
-
-    bldg_3d_tourism_layer = {
-        "@@type": "Tile3DLayer",
-        "id": "bldg-3d",
-        "loader": "@@#CesiumIonLoader",
-        "opacity": 1,
-        "data": cesium_tile_url(2446466),
-        "loadOptions": {
-            "cesium-ion": {"accessToken": cesium_token},
-        },
-        "pickable": False,
-        "_subLayerProps": {
-            "scenegraph": {
-                "_lighting": "pbr",
-                "getColor": [340, 340, 340, 300],
-                "material": {
-                    "ambient": 0.5,
-                    "diffuse": 0.5,
-                    "specularColor": [255, 255, 255],
-                },
-            }
-        },
-    }
-
     road_segment_layer = {
         "@@type": "PathLayer",
         "data": json.loads(road_path_layer_data(scn_code, year)),
@@ -349,35 +250,88 @@ def slr_scenario(
         "widthScale": 5,
     }
 
-    if pathname == "/transportation":
+    if pathname == "/housing" or pathname == "/":
         layers = [
             slr_tile_layer,
-            bldg_3d_transport_layer,
+            bldg_3d_data(
+                2446464,  # housing buildings
+                [340, 340, 340, 300],
+                "bldg-3d-housing"
+            ),
+            bfp_layer
+        ]
+        tooltip_html = tooltip_housing_html
+    elif pathname == "/transportation":
+        layers = [
+            slr_tile_layer,
+            bldg_3d_data(
+                2446032,  # all buildings
+                [340, 340, 340, 150],
+                "bldg-3d-transport"
+            ),
             road_segment_layer,
             asset_points_layer(scn_code, year, pathname),
         ]
         tooltip_html = tooltip_transportation_html
         if not initial_mb_style:
             initial_mb_style = "Satellite"
-    elif pathname == "/housing" or pathname == "/":
-        layers = [slr_tile_layer, bldg_3d_housing_layer, bfp_layer]
-        tooltip_html = tooltip_housing_html
-    elif pathname == "/adaptation":
-        layers = [
-            adapt_dem_layer,
-            adapt_plan_layer,
-            bldg_adapt_3d_layer,
-            bfp_layer,
-        ]
-        tooltip_html = tooltip_housing_html
-    else:
+    elif pathname == '/critical-infrastructure':
         layers = [
             slr_tile_layer,
-            # bfp_asset_layer,
-            bldg_3d_tourism_layer,
+            bldg_3d_data(
+                2446460,  # critical infrastructure buildings
+                [340, 340, 340, 300],
+                "bldg-3d-critical-infrastructure"
+            ),
             asset_points_layer(scn_code, year, pathname),
         ]
         tooltip_html = tooltip_asset_html
+    elif pathname == '/community-services':
+        layers = [
+            slr_tile_layer,
+            bldg_3d_data(
+                2446961,  # community services buildings
+                [710, 710, 710, 300],
+                "bldg-3d-community-services"
+            ),
+            asset_points_layer(scn_code, year, pathname),
+        ]
+        tooltip_html = tooltip_asset_html
+    elif pathname == '/natural-cultural-resources':
+        layers = [
+            slr_tile_layer,
+            bldg_3d_data(
+                2446465,  # natural/cultural buildings
+                [340, 340, 340, 300],
+                "bldg-3d-natural-cultural"
+            ),
+            asset_points_layer(scn_code, year, pathname),
+        ]
+        tooltip_html = tooltip_asset_html
+    elif pathname == '/local-economy':
+        layers = [
+            slr_tile_layer,
+            bldg_3d_data(
+                2446466,  # tourism/economy buildings
+                [340, 340, 340, 300],
+                "bldg-3d-tourism"
+            ),
+            asset_points_layer(scn_code, year, pathname),
+        ]
+        tooltip_html = tooltip_asset_html
+    else:  # pathname == "/adaptation":
+        layers = [
+            adapt_dem_layer,
+            adapt_plan_layer,
+            bldg_3d_data(
+                2446032,  # all buildings
+                [340, 340, 340, 200],
+                "bldg-3d-transport"
+            ),
+            bfp_layer,
+        ]
+        tooltip_html = tooltip_housing_html
+
     json_data = {
         "initialViewState": view_state,
         "layers": layers,
@@ -390,6 +344,15 @@ def slr_scenario(
     return dash_deck.DeckGL(
         json_data,
         id="terrain-deck",
-        tooltip={"html": tooltip_html, "style": tooltip_style},
+        tooltip={
+            "html": tooltip_html,
+            "style": {
+                "font-size": "14px",
+                "background-color": "rgba(255, 255, 255, 0.83)",
+                # "padding": "5px 5px 5px 5px",
+                "border-radius": "5px",
+                "z-index": 1000,
+            }
+        },
         mapboxKey=mapbox_token,
     )
