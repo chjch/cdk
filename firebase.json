@@ -1,7 +1,7 @@
 {
   "hosting": {
     "site": "resilientcedarkey",  // define the site must be first configured in Firbase Console
-    "public": "static",  // need to remove the index.html in this folder
+    "public": "app",  // need to remove the index.html in this folder
     "ignore": [
       "firebase.json",
       "**/.*",
