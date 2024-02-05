@@ -178,7 +178,8 @@ td {
     background-color: #0E3183;
     color: #ffffff;
     border: 2px solid #ffffff;
-    border-radius: 5px
+    border-radius: 5px;
+    z-index: 1000;
 }
 
 .btn {
