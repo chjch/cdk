@@ -18,7 +18,7 @@ load_dotenv()
 roadmap = "mapbox://styles/chjch/clksmew8z017u01qkbvbd7t32"
 satellite = "mapbox://styles/mapbox/satellite-v9"
 
-CESIUM_ASSET_ID = 1891205
+CESIUM_ASSET_ID = 2446032
 
 sun_light = {
     "@@type": "_SunLight",
@@ -60,11 +60,11 @@ lighting_effect = {
 
 tooltip_transportation_html = """
     <table>
-        <tr>
-            <td><strong>Asset Name</strong></td>
-            <td>{Asset Name}</td>
-        </tr>
-
+        <thead>
+            <th colspan="2">
+                <strong>{Asset Name}</strong>
+            </th>
+        </thead>
         <tr>
             <td><strong>Flood Depth (ft)</strong></td>
             <td>{Flood Depth (ft)}</td>
@@ -74,10 +74,11 @@ tooltip_transportation_html = """
 
 tooltip_housing_html = """
     <table>
-        <tr>
-            <td><strong>Asset Name</strong></td>
-            <td>{Asset Name}</td>
-        </tr>
+        <thead>
+            <th colspan="2">
+                <strong>{Asset Name}</strong>
+            </th>
+        </thead>
         <tr>
             <td><strong>First Floor (FF) Height</strong></td>
             <td>{First Floor Height (ft)}</td>
@@ -91,10 +92,11 @@ tooltip_housing_html = """
 
 tooltip_asset_html = """
     <table>
-        <tr>
-            <td><strong>Asset Name</strong></td>
-            <td>{Asset Name}</td>
-        </tr>
+        <thead>
+            <th colspan="2">
+                <strong>{Asset Name}</strong>
+            </th>
+        </thead>
         <tr>
             <td><strong>Asset Type</strong></td>
             <td>{Asset Type}</td>
@@ -110,9 +112,9 @@ tooltip_asset_html = """
 tooltip_style = {
     "font-size": "14px",
     "background-color": "rgba(255, 255, 255, 0.83)",
-    "color": "black",
-    "padding": "5px 5px 5px 5px",
+    # "padding": "5px 5px 5px 5px",
     "border-radius": "5px",
+    "z-index": 1000,
 }
 
 
@@ -223,7 +225,7 @@ def slr_scenario(
         "id": "bldg-adapt-3d",
         "loader": "@@#CesiumIonLoader",
         "opacity": 1,
-        "data": cesium_tile_url(CESIUM_ASSET_ID),
+        "data": cesium_tile_url(2446032),
         "loadOptions": {
             "cesium-ion": {"accessToken": cesium_token},
         },
@@ -231,7 +233,7 @@ def slr_scenario(
         "_subLayerProps": {
             "scenegraph": {
                 "_lighting": "pbr",
-                "getColor": [177, 198, 220, 255],
+                "getColor": [340, 340, 340, 200],
                 "material": {
                     "ambient": 0.5,
                     "diffuse": 0.5,
@@ -241,12 +243,81 @@ def slr_scenario(
         },
     }
 
-    bldg_3d_layer = {
+    bldg_3d_transport_layer = {
+        "@@type": "Tile3DLayer",
+        "id": "bldg-transport-3d",
+        "loader": "@@#CesiumIonLoader",
+        "opacity": 1,
+        "data": cesium_tile_url(2446032),
+        "loadOptions": {
+            "cesium-ion": {"accessToken": cesium_token},
+        },
+        "pickable": False,
+        "_subLayerProps": {
+            "scenegraph": {
+                "_lighting": "pbr",
+                "getColor": [340, 340, 340, 150],
+                "material": {
+                    "ambient": 0.5,
+                    "diffuse": 0.5,
+                    "specularColor": [255, 255, 255],
+                },
+            }
+        },
+    }
+
+    bldg_3d_housing_layer = {
         "@@type": "Tile3DLayer",
         "id": "bldg-3d",
         "loader": "@@#CesiumIonLoader",
         "opacity": 1,
-        "data": cesium_tile_url(CESIUM_ASSET_ID),
+        "data": cesium_tile_url(2446464),
+        "loadOptions": {
+            "cesium-ion": {"accessToken": cesium_token},
+        },
+        "pickable": False,
+        "_subLayerProps": {
+            "scenegraph": {
+                "_lighting": "pbr",
+                "getColor": [340, 340, 340, 300],
+                "material": {
+                    "ambient": 0.5,
+                    "diffuse": 0.5,
+                    "specularColor": [255, 255, 255],
+                },
+            }
+        },
+    }
+
+    bldg_3d_comm_layer = {
+        "@@type": "Tile3DLayer",
+        "id": "bldg-3d",
+        "loader": "@@#CesiumIonLoader",
+        "opacity": 1,
+        "data": cesium_tile_url(2446457),
+        "loadOptions": {
+            "cesium-ion": {"accessToken": cesium_token},
+        },
+        "pickable": False,
+        "_subLayerProps": {
+            "scenegraph": {
+                "_lighting": "pbr",
+                "getColor": [340, 340, 340, 300],
+                "material": {
+                    "ambient": 0.5,
+                    "diffuse": 0.5,
+                    "specularColor": [255, 255, 255],
+                },
+            }
+        },
+    }
+
+    bldg_3d_tourism_layer = {
+        "@@type": "Tile3DLayer",
+        "id": "bldg-3d",
+        "loader": "@@#CesiumIonLoader",
+        "opacity": 1,
+        "data": cesium_tile_url(2446466),
         "loadOptions": {
             "cesium-ion": {"accessToken": cesium_token},
         },
@@ -281,6 +352,7 @@ def slr_scenario(
     if pathname == "/transportation":
         layers = [
             slr_tile_layer,
+            bldg_3d_transport_layer,
             road_segment_layer,
             asset_points_layer(scn_code, year, pathname),
         ]
@@ -288,7 +360,7 @@ def slr_scenario(
         if not initial_mb_style:
             initial_mb_style = "Satellite"
     elif pathname == "/housing" or pathname == "/":
-        layers = [slr_tile_layer, bldg_3d_layer, bfp_layer]
+        layers = [slr_tile_layer, bldg_3d_housing_layer, bfp_layer]
         tooltip_html = tooltip_housing_html
     elif pathname == "/adaptation":
         layers = [
@@ -301,7 +373,8 @@ def slr_scenario(
     else:
         layers = [
             slr_tile_layer,
-            bfp_asset_layer,
+            # bfp_asset_layer,
+            bldg_3d_tourism_layer,
             asset_points_layer(scn_code, year, pathname),
         ]
         tooltip_html = tooltip_asset_html

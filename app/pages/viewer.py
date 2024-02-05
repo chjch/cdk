@@ -205,87 +205,114 @@ basemap_dropdown = dcc.Dropdown(
 
 mobile_dropups = dbc.Row(
     [
-        dbc.ButtonGroup([
-            dbc.DropdownMenu(
-            label="Category",
-            children=[
-                dbc.DropdownMenuItem(
-                    "HOUSING", id="dropdown-button", href="/viewer/housing",
+        dbc.ButtonGroup(
+            [
+                dbc.DropdownMenu(
+                    label="Category",
+                    children=[
+                        dbc.DropdownMenuItem(
+                            "HOUSING",
+                            id="dropdown-button",
+                            href="/viewer/housing",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "TRANSPORTATION",
+                            href="/viewer/transportation",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "CRITICAL INFRASTRUCTURE",
+                            href="/viewer/critical-infrastructure",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "COMMUNITY SERVICES",
+                            href="/viewer/community-services",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "NATURAL & CULTURAL",
+                            href="/viewer/natural-cultural-resources",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "LOCAL ECONOMY",
+                            href="/viewer/local-economy",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "ADAPTATION",
+                            href="/viewer/adaptation",
+                        ),
+                    ],
+                    direction="up",
+                    group=True,
+                    toggle_style={"border-radius": "0%"},
                 ),
-                dbc.DropdownMenuItem(
-                    "TRANSPORTATION", href="/viewer/transportation",
+                dbc.DropdownMenu(
+                    label="Projection Year",
+                    children=[
+                        dbc.DropdownMenuItem(
+                            "2022",
+                            id="dropdown-button",
+                            href="/viewer/housing",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "2040",
+                            href="/viewer/transportation",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "2070",
+                            href="/viewer/critical-infrastructure",
+                        ),
+                    ],
+                    direction="up",
+                    toggleClassName="YearDropup",
+                    group=True,
+                    toggle_style={"border-radius": "0%"},
                 ),
-                dbc.DropdownMenuItem(
-                    "CRITICAL INFRASTRUCTURE", href="/viewer/critical-infrastructure",
+                dbc.DropdownMenu(
+                    label="Scenario",
+                    children=[
+                        dbc.DropdownMenuItem(
+                            "CAT5",
+                            id="dropdown-button",
+                            href="/viewer/housing",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "CAT3",
+                            href="/viewer/transportation",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "CAT1",
+                            href="/viewer/critical-infrastructure",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "NFHL100",
+                            id="dropdown-button",
+                            href="/viewer/housing",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "EWL10R",
+                            href="/viewer/transportation",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "EWL2R",
+                            href="/viewer/critical-infrastructure",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "EWL1R",
+                            href="/viewer/transportation",
+                        ),
+                        dbc.DropdownMenuItem(
+                            "MHHW",
+                            href="/viewer/critical-infrastructure",
+                        ),
+                    ],
+                    direction="up",
+                    align_end=True,
+                    toggleClassName="ScenarioDropup",
+                    group=True,
+                    toggle_style={"border-radius": "0%"},
                 ),
-                dbc.DropdownMenuItem(
-                    "COMMUNITY SERVICES", href="/viewer/community-services",
-                ),
-                dbc.DropdownMenuItem(
-                    "NATURAL & CULTURAL", href="/viewer/natural-cultural-resources",
-                ),
-                dbc.DropdownMenuItem(
-                    "LOCAL ECONOMY", href="/viewer/local-economy",
-                ),
-                dbc.DropdownMenuItem(
-                    "ADAPTATION", href="/viewer/adaptation",
-                )
             ],
-            direction="up",
-            group=True,
-            toggle_style={"border-radius": "0%"},
-            ),
-            dbc.DropdownMenu(label="Projection Year", children=[
-                dbc.DropdownMenuItem(
-                    "2022", id="dropdown-button", href="/viewer/housing",
-                ),
-                dbc.DropdownMenuItem(
-                    "2040", href="/viewer/transportation",
-                ),
-                dbc.DropdownMenuItem(
-                    "2070", href="/viewer/critical-infrastructure",
-                ),
-            ], 
-            direction="up",
-            toggleClassName="YearDropup",
-            group=True,
-            toggle_style={"border-radius": "0%"},
-            ),
-            dbc.DropdownMenu(label="Scenario", children=[
-                dbc.DropdownMenuItem(
-                    "CAT5", id="dropdown-button", href="/viewer/housing",
-                ),
-                dbc.DropdownMenuItem(
-                    "CAT3", href="/viewer/transportation",
-                ),
-                dbc.DropdownMenuItem(
-                    "CAT1", href="/viewer/critical-infrastructure",
-                ),
-                dbc.DropdownMenuItem(
-                    "NFHL100", id="dropdown-button", href="/viewer/housing",
-                ),
-                dbc.DropdownMenuItem(
-                    "EWL10R", href="/viewer/transportation",
-                ),
-                dbc.DropdownMenuItem(
-                    "EWL2R", href="/viewer/critical-infrastructure",
-                ),
-                dbc.DropdownMenuItem(
-                    "EWL1R", href="/viewer/transportation",
-                ),
-                dbc.DropdownMenuItem(
-                    "MHHW", href="/viewer/critical-infrastructure",
-                ),
-            ], 
-            direction="up",
-            align_end=True,
-            toggleClassName="ScenarioDropup",
-            group=True,
-            toggle_style={"border-radius": "0%"},
-            ),
-        ],
-        className="dropup-group",
-        style={"width": "100%"},
+            className="dropup-group",
+            style={"width": "100%"},
         ),
     ],
     className="dropup-row",
@@ -313,10 +340,10 @@ map_expansion_btn = dbc.Button(
 adapt_proj_box = html.Div(
     children=[
         dcc.RadioItems(
-            value=None,
-            id="proj-radio-items",
-            style={"display": "none"})
-    ], id="adapt-proj-box"
+            value=None, id="proj-radio-items", style={"display": "none"}
+        )
+    ],
+    id="adapt-proj-box",
 )
 
 main_map = html.Div(
@@ -340,7 +367,7 @@ map_column = dbc.Col(
                     ],
                     id="map-container",
                     className="pretty_container",
-                    style={"z-index": "1000"}
+                    style={"z-index": "100"},
                 ),
                 map_x_slider,
             ],
@@ -368,7 +395,7 @@ def layout(asset_type=None):
                 id="mobile-dropup-row",
                 children=[mobile_dropups],
                 className="show-mobile",
-            )
+            ),
         ]
     )
 
@@ -718,7 +745,7 @@ def show_adapt_proj_card(pathname):
                         "font-family": "Poppins",
                         "font-size": "0.9em",
                         "background-color": "#0E3183",
-                        "color": "white"
+                        "color": "white",
                     },
                 ),
                 dbc.CardBody(
@@ -771,7 +798,10 @@ def show_adapt_proj_card(pathname):
                         ],
                         value="1",
                         id="proj-radio-items",
-                        labelStyle={"display": "flex", "align-items": "center"},
+                        labelStyle={
+                            "display": "flex",
+                            "align-items": "center",
+                        },
                     )
                 ),
             ],
@@ -786,7 +816,9 @@ def show_adapt_proj_card(pathname):
             id="adapt-proj-list-card",
         )
     else:
-        return dcc.RadioItems(value=None, id="proj-radio-items", style={"display": "none"})
+        return dcc.RadioItems(
+            value=None, id="proj-radio-items", style={"display": "none"}
+        )
 
 
 # add callback for toggling the collapse on small screens
@@ -808,5 +840,3 @@ def count_clicks(n):
     if n:
         return f"Button clicked {n} times."
     return "Button not clicked yet."
-
-
