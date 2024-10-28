@@ -487,3 +487,11 @@ td {
 .modal-title {
     color: #000000;
 }
+
+.fixed-width {
+    max-width: 700px; /* Or any other maximum width you want for the 4-column side */
+}
+
+.stretch-width {
+    flex-grow: 1; /* Let the 8-column side stretch to fill the available space */
+}

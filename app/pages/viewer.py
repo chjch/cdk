@@ -42,7 +42,7 @@ chart_column = dbc.Col(
             style={"height": "28vh"},
         ),
     ],
-    className="hidden-mobile",
+    className="hidden-mobile fixed-width",
     width=4,
 )
 chart_column = collapse_component(
@@ -177,7 +177,7 @@ map_legend_toast = html.Div(
         "bottom": "70px",
         "left": "45px",
         "width": "15%",
-        "max-width": "200px",
+        "max-width": "300px",
         "min-width": "160px",
         "height": "auto",
         "position": "absolute",
@@ -376,7 +376,7 @@ map_column = dbc.Col(
         ),
         map_y_slider,
     ],
-    className="hstack gap-2",
+    className="hstack gap-2 stretch-width",
 )
 
 
@@ -568,6 +568,8 @@ def update_legend(pathname):
             html.Li([html.Span(className="tile-level7"), "18.1 - 27 ft"]),
             html.Li([html.Span(className="tile-level8"), "> 27 ft"]),
         ], "Depth of flooding"
+    elif pathname == "/adaptation":
+        return html.Img(src="/assets/image/AdaptLegend.png"), "Adaptation Plan"
     else:
         return [
             html.P(
@@ -719,14 +721,14 @@ def hide_map_expand_btn(pathname):
         return "d-none"
 
 
-@callback(
-    Output("legend-button", "className"),
-    [Input("sub-path", "pathname")],
-)
-def hide_legend_button(pathname):
-    pathname = "/" + pathname.split("/")[-1]
-    if pathname == "/adaptation":
-        return "d-none"
+# @callback(
+#     Output("legend-button", "className"),
+#     [Input("sub-path", "pathname")],
+# )
+# def hide_legend_button(pathname):
+#     pathname = "/" + pathname.split("/")[-1]
+#     if pathname == "/adaptation":
+#         return "d-none"
 
 
 @callback(
